@@ -9,4 +9,3 @@ with an install guide, an guide on how to develop etc.
 ## Current supported devices:
 - Switches
 - Thermometers (no battery level and humidity support yet)
-- 
