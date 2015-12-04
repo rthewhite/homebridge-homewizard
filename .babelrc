@@ -1,0 +1,10 @@
+{
+  "modules": "common",
+  "sourceMap": false,
+  "optional": [
+    "spec.protoToAssign",
+    "es7.exportExtensions",
+    "es7.classProperties",
+    "es7.decorators"
+  ]
+}

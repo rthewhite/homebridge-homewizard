@@ -1,34 +1,53 @@
-module.exports = class HomeWizardSwitch {
-  constructor(Service, Characteristic, hwObject) {
-    this.Service = Service;
-    this.Characteristic = Characteristic;
+import request from 'request';
 
-    console.log(hwObject);
+let Service;
+let Characteristic;
+
+export class HomeWizardSwitch {
+  constructor(log, config, hap, hwObject) {
+    this.log = log;
+    this.config = config;
+    this.name = hwObject.name;
+    this.id = hwObject.id;
+
+    Service = hap.Service;
+    Characteristic = hap.Characteristic;
   }
 
-  launchEvent(value, callback) {
-    console.log('switching.....');
+  setPowerState(state, callback) {
+    let url = `${this.config.url}sw/${this.id}/off`;
+    if (state) {
+      url = `${this.config.url}sw/${this.id}/on`;
+    }
 
-    callback();
+    request(url, error => {
+      if (error) {
+        this.log(`Failed to switch: ${this.id}`, error);
+        this.log(JSON.stringify(error));
+        return callback(error);
+      }
+
+      return callback();
+    });
   }
 
 
   getServices() {
     const services = [];
 
-    const informationService = new this.Service.AccessoryInformation();
+    const informationService = new Service.AccessoryInformation();
     informationService
-      .setCharacteristic(this.Characteristic.Manufacturer, 'HomeWizard')
-      .setCharacteristic(this.Characteristic.Model, 'HomeWizard')
-      .setCharacteristic(this.Characteristic.SerialNumber, 'bla die bla');
+      .setCharacteristic(Characteristic.Manufacturer, 'HomeWizard')
+      .setCharacteristic(Characteristic.Model, 'HomeWizard')
+      .setCharacteristic(Characteristic.SerialNumber, 'bla die bla');
     services.push(informationService);
 
-    const switchService = new this.Service.Switch();
-    switchService
-      .getCharacteristic(this.Characteristic.On)
-      .on('set', this.launchEvent.bind(this));
-    services.push(switchService);
+    const lightbulbService = new Service.Lightbulb();
+    lightbulbService
+      .getCharacteristic(Characteristic.On)
+      .on('set', this.setPowerState.bind(this));
+    services.push(lightbulbService);
 
     return services;
   }
-};
+}

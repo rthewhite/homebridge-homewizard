@@ -1,109 +1,89 @@
-"use strict";
+'use strict';
 
-const request = require('request');
-let Service, Characteristic;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-class HomeWizardSwitch {
-  constructor(config, hwObject) {
-    this.config = config;
-    this.name = hwObject.name;
-    this.id = hwObject.id;
-    this.status = hwObject.status;
-  }
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  setPowerState(state, callback) {
-    let url = `${ this.config.url }sw/${ this.id }/off`;
-    if (state) {
-      url = `${ this.config.url }sw/${ this.id }/on`;
-    }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-    request(url, (error, data) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Switched: ' + this.name);
-      }
-      callback();
-    });
-  }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  getServices() {
-    const services = [];
+var _request = require('request');
 
-    const informationService = new Service.AccessoryInformation();
-    informationService.setCharacteristic(Characteristic.Manufacturer, 'HomeWizard').setCharacteristic(Characteristic.Model, 'HomeWizard').setCharacteristic(Characteristic.SerialNumber, 'bla die bla');
-    services.push(informationService);
+var _request2 = _interopRequireDefault(_request);
 
-    const lightbulbService = new Service.Lightbulb();
-    lightbulbService.getCharacteristic(Characteristic.On).on('set', this.setPowerState.bind(this));
-    services.push(lightbulbService);
+var _accessoriesSwitch = require('./accessories/switch');
 
-    return services;
-  }
-}
+var hap = undefined;
 
-class HomeWizardTemperatureSensor {
-  constructor(config, hwObject) {
-    this.config = config;
-    this.name = hwObject.name;
-    this.id = hwObject.id;
-    this.status = hwObject.status;
-  }
+var HomewizardPlatform = (function () {
+  function HomewizardPlatform(log, config) {
+    _classCallCheck(this, HomewizardPlatform);
 
-  getTemperature(callback) {
-    request(`${ this.config.url }te/graph/${ this.id }/day`, (error, data) => {
-      if (error) {
-        console.log('Failed to get temperature for: ', this.name);
-        return callback(error, null);
-      } else {
-        const response = JSON.parse(data.body).response;
-        const current = response[response.length - 1];
-        return callback(null, current.te);
-      }
-    });
-  }
-
-  getServices() {
-    const temperatureSensorService = new Service.TemperatureSensor();
-    temperatureSensorService.getCharacteristic(Characteristic.CurrentTemperature).on('get', this.getTemperature.bind(this));
-    temperatureSensorService.getCharacteristic(Characteristic.CurrentTemperature).setProps({ minValue: -100 });
-
-    return [temperatureSensorService];
-  }
-}
-
-class HomewizardPlatform {
-  constructor(log, config) {
     this.log = log;
     this.config = config;
   }
 
-  accessories(callback) {
-    const accessories = [];
+  _createClass(HomewizardPlatform, [{
+    key: 'accessories',
+    value: function accessories(callback) {
+      var _this = this;
 
-    request(`${ this.config.url }get-sensors`, (error, data) => {
-      if (error) {
-        console.log('Failed to retrieve sensors/accessories from HomeWizard');
-      } else {
-        const sensors = JSON.parse(data.body).response;
+      var accessories = [];
+
+      (0, _request2['default'])(this.config.url + 'get-sensors', function (error, data) {
+        if (error) {
+          _this.log('Failed to retrieve sensors/accessories from HomeWizard');
+          return callback(error);
+        }
+
+        var sensors = JSON.parse(data.body).response;
 
         // Handle the switches for now
-        for (const switchSensor of sensors.switches) {
-          accessories.push(new HomeWizardSwitch(this.config, switchSensor));
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = sensors.switches[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var switchSensor = _step.value;
+
+            console.log(_accessoriesSwitch.HomeWizardSwitch);
+            accessories.push(new _accessoriesSwitch.HomeWizardSwitch(_this.log, _this.config, hap, switchSensor));
+          }
+
+          // Handle temprature sensors
+          // for (const tempSensor of sensors.thermometers) {
+          //   accessories.push(new HomeWizardTemperatureSensor(this.config, tempSensor));
+          // }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator['return']) {
+              _iterator['return']();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
         }
 
-        // Handle temprature sensors
-        for (const tempSensor of sensors.thermometers) {
-          accessories.push(new HomeWizardTemperatureSensor(this.config, tempSensor));
-        }
-      }
-      callback(accessories);
-    });
-  }
-}
+        callback(accessories);
+      });
+    }
+  }]);
 
-module.exports = homebridge => {
-  Service = homebridge.hap.Service;
-  Characteristic = homebridge.hap.Characteristic;
+  return HomewizardPlatform;
+})();
+
+exports['default'] = function (homebridge) {
+  hap = homebridge.hap;
   homebridge.registerPlatform('homebridge-homewizard', 'HomeWizard', HomewizardPlatform);
 };
+
+module.exports = exports['default'];
