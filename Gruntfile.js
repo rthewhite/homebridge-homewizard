@@ -1,4 +1,4 @@
-
+/*global module:false*/
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -31,8 +31,10 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['src/**/*.js'],
-      tasks: ['babel:build']
+      dev: {
+        files: ['src/**/*.js'],
+        tasks: ['babel:build']
+      }
     }
   });
 
@@ -47,7 +49,6 @@ module.exports = function(grunt) {
     'babel:build',
     'watch'
   ]);
-
 
   grunt.registerTask('build', [
     'clean',

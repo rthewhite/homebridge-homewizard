@@ -1,11 +1,33 @@
 # homebridge-homewizard
-This is a work in progress project to connect the HomeWizard as a platform to Homebridge.
-And therefore control all devices and sensors attached to your HomeWizard with Siri!
+This plugin will add platform support for HomeWizard to Homebridge.
+And therefore give you the ability to control all devices and sensors attached to your HomeWizard with Siri!
 
-It's currently under activate development and in a very early Alpha stage. 
-If you are interested in helping out let me know. As soon as this becomes production worthy i will update the readme 
-with an install guide, an guide on how to develop etc.
+This plugin is still under development. Supported devices are listed below.
+
+If you are interested in helping out, or would like to see support for something let me know!
 
 ## Current supported devices:
 - Switches
-- Thermometers (no battery level and humidity support yet)
+- Thermometers
+
+## Install guide
+First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
+
+If you have Node and NPM setup basically:
+```
+npm install -g homebridge
+```
+
+Once you have homebridge installed, install this plugin:
+
+```
+npm install -g homebridge-homewizard
+```
+
+Now you will have to setup your config.json for homebridge. An example
+is included in this repo.
+
+## Post install
+When you have installed homebridge and homebridge-homewizard and got them running
+and setup on your iOS device. All devices that homebridge-homewizard currently
+supports should popup on your iOS device as accessories in Homekit.

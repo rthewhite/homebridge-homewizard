@@ -1,53 +1,27 @@
-import request from 'request';
+import {HomeWizardBaseAccessory} from './accessory';
 
-let Service;
-let Characteristic;
+export class HomeWizardSwitch extends HomeWizardBaseAccessory {
 
-export class HomeWizardSwitch {
-  constructor(log, config, hap, hwObject) {
-    this.log = log;
-    this.config = config;
-    this.name = hwObject.name;
-    this.id = hwObject.id;
+  model = 'Switch';
 
-    Service = hap.Service;
-    Characteristic = hap.Characteristic;
+  setupServices() {
+    // Setup services
+    const lightbulbService = new this.hap.Service.Lightbulb();
+    lightbulbService
+      .getCharacteristic(this.hap.Characteristic.On)
+      .on('set', this.setPowerState.bind(this));
+    this.services.push(lightbulbService);
   }
 
   setPowerState(state, callback) {
-    let url = `${this.config.url}sw/${this.id}/off`;
-    if (state) {
-      url = `${this.config.url}sw/${this.id}/on`;
-    }
+    const value = state ? 'on' : 'off';
+    const url = `sw/${this.id}/${value}`;
 
-    request(url, error => {
-      if (error) {
-        this.log(`Failed to switch: ${this.id}`, error);
-        this.log(JSON.stringify(error));
-        return callback(error);
-      }
-
-      return callback();
+    this.api.request({url}).then(() => {
+      this.log(`Switched ${this.name} to: ${value}`);
+      callback();
+    }).catch(error => {
+      callback(error);
     });
-  }
-
-
-  getServices() {
-    const services = [];
-
-    const informationService = new Service.AccessoryInformation();
-    informationService
-      .setCharacteristic(Characteristic.Manufacturer, 'HomeWizard')
-      .setCharacteristic(Characteristic.Model, 'HomeWizard')
-      .setCharacteristic(Characteristic.SerialNumber, 'bla die bla');
-    services.push(informationService);
-
-    const lightbulbService = new Service.Lightbulb();
-    lightbulbService
-      .getCharacteristic(Characteristic.On)
-      .on('set', this.setPowerState.bind(this));
-    services.push(lightbulbService);
-
-    return services;
   }
 }
