@@ -5,3 +5,8 @@ And therefore control all devices and sensors attached to your HomeWizard with S
 It's currently under activate development and in a very early Alpha stage. 
 If you are interested in helping out let me know. As soon as this becomes production worthy i will update the readme 
 with an install guide, an guide on how to develop etc.
+
+## Current supported devices:
+- Switches
+- Thermometers (no battery level and humidity support yet)
+- 
