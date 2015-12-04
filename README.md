@@ -31,3 +31,23 @@ is included in this repo.
 When you have installed homebridge and homebridge-homewizard and got them running
 and setup on your iOS device. All devices that homebridge-homewizard currently
 supports should popup on your iOS device as accessories in Homekit.
+
+
+## Developing
+All help developing this plugin is welcome. Currently the plugin is in a very alpha stage with limited
+support. There aren't any unit tests and there is only support for switches and thermometers.
+
+homebridge-homewizard is written in ES6 and transpiled using Babel. Things that are on the TODO list:
+
+- setup Travis CI
+- upgrade to Babel 6
+- Add unit tests
+- Implement more devices
+- Add battery status to thermometers
+- Improve documentation
+
+### Adding device support
+If you want to add support for new devices, you will need to create a new accessory class in
+the accessories folder. See for example switch or thermometer, next to that you will need to make
+the accessories factory in accessories.js aware of you new device type. The factory receives the entire
+response of the get-sensors call from the HomeWizard which lists all devices.
