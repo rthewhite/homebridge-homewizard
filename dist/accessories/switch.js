@@ -32,50 +32,26 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
     value: function setupServices() {
       // Setup services
       var lightbulbService = new this.hap.Service.Lightbulb();
-      lightbulbService.getCharacteristic(this.hap.Characteristic.On).on('set', this.setPowerState.bind(this));
+      lightbulbService.getCharacteristic(this.hap.Characteristic.On).on('set', this.setPowerState.bind(this)).on('get', this.getPowerState.bind(this));
+
+      if (this.hwObject.type === 'dimmer') {
+        lightbulbService.getCharacteristic(this.hap.Characteristic.Brightness).on('set', this.setBrightness.bind(this)).on('get', this.getBrightness.bind(this));
+      }
+
       this.services.push(lightbulbService);
     }
+
+    // Sadly there is no individual call to get a sensor status
+    // so retrieve all and find this one
   }, {
-    key: 'getPowerState',
-    value: function getPowerState(callback) {
+    key: 'getCurrentValues',
+    value: function getCurrentValues() {
       var _this = this;
 
-      // Sadly there is no individual call to get a sensor status
-      // so retrieve all and find this one
-      this.api.request('swlist').then(function (data) {
-        var state = undefined;
-
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = data.reponse[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var sw = _step.value;
-
-            if (sw.id === _this.id) {
-              state = sw.state === 'on' ? 1 : 0;
-              break;
-            }
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator['return']) {
-              _iterator['return']();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        callback(null, state);
-      })['catch'](function (error) {
-        callback(error, 0);
+      return this.api.request('swlist').then(function (data) {
+        return data.response.find(function (sw) {
+          return sw.id === _this.id;
+        });
       });
     }
   }, {
@@ -84,11 +60,42 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
       var _this2 = this;
 
       var value = state ? 'on' : 'off';
-      var url = 'sw/' + this.id + '/' + value;
+      var url = 'sw/' + this.id + '/' + state;
 
       this.api.request({ url: url }).then(function () {
         _this2.log('Switched ' + _this2.name + ' to: ' + value);
         callback();
+      })['catch'](function (error) {
+        callback(error);
+      });
+    }
+  }, {
+    key: 'getPowerState',
+    value: function getPowerState(callback) {
+      this.getCurrentValues().then(function (sw) {
+        var state = sw.state === 'on' ? 1 : 0;
+        callback(null, state);
+      })['catch'](function (error) {
+        callback(error, 0);
+      });
+    }
+  }, {
+    key: 'setBrightness',
+    value: function setBrightness(value, callback) {
+      var _this3 = this;
+
+      this.api.request('sw/dim/' + this.id + '/' + value).then(function () {
+        _this3.log('Set brightness for: ' + _this3.name + ' to: ' + value);
+        callback();
+      })['catch'](function (error) {
+        callback(error);
+      });
+    }
+  }, {
+    key: 'getBrightness',
+    value: function getBrightness(callback) {
+      this.getCurrentValues().then(function (sw) {
+        callback(null, sw.dimlevel);
       })['catch'](function (error) {
         callback(error);
       });
