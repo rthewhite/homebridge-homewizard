@@ -60,12 +60,14 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
       var _this2 = this;
 
       var value = state ? 'on' : 'off';
-      var url = 'sw/' + this.id + '/' + state;
+      var url = 'sw/' + this.id + '/' + value;
 
       this.api.request({ url: url }).then(function () {
         _this2.log('Switched ' + _this2.name + ' to: ' + value);
         callback();
       })['catch'](function (error) {
+        _this2.log('Failed to switch ' + _this2.name);
+        _this2.log(JSON.stringify(error));
         callback(error);
       });
     }

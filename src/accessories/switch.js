@@ -34,12 +34,14 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
 
   setPowerState(state, callback) {
     const value = state ? 'on' : 'off';
-    const url = `sw/${this.id}/${state}`;
+    const url = `sw/${this.id}/${value}`;
 
     this.api.request({url}).then(() => {
       this.log(`Switched ${this.name} to: ${value}`);
       callback();
     }).catch(error => {
+      this.log(`Failed to switch ${this.name}`);
+      this.log(JSON.stringify(error));
       callback(error);
     });
   }
