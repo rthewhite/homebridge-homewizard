@@ -25,7 +25,7 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
   // Sadly there is no individual call to get a sensor status
   // so retrieve all and find this one
   getCurrentValues() {
-    return this.api.request(`swlist`).then(data => {
+    return this.api.request({url: 'swlist'}).then(data => {
       return data.response.find(sw => {
         return sw.id === this.id;
       });
@@ -54,7 +54,7 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
   }
 
   setBrightness(value, callback) {
-    this.api.request(`sw/dim/${this.id}/${value}`).then(() => {
+    this.api.request({url: `sw/dim/${this.id}/${value}`}).then(() => {
       this.log(`Set brightness for: ${this.name} to: ${value}`);
       callback();
     }).catch(error => {

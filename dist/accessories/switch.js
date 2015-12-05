@@ -48,7 +48,7 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
     value: function getCurrentValues() {
       var _this = this;
 
-      return this.api.request('swlist').then(function (data) {
+      return this.api.request({ url: 'swlist' }).then(function (data) {
         return data.response.find(function (sw) {
           return sw.id === _this.id;
         });
@@ -84,7 +84,7 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
     value: function setBrightness(value, callback) {
       var _this3 = this;
 
-      this.api.request('sw/dim/' + this.id + '/' + value).then(function () {
+      this.api.request({ url: 'sw/dim/' + this.id + '/' + value }).then(function () {
         _this3.log('Set brightness for: ' + _this3.name + ' to: ' + value);
         callback();
       })['catch'](function (error) {
