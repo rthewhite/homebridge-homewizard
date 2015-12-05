@@ -36,15 +36,58 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
       this.services.push(lightbulbService);
     }
   }, {
+    key: 'getPowerState',
+    value: function getPowerState(callback) {
+      var _this = this;
+
+      // Sadly there is no individual call to get a sensor status
+      // so retrieve all and find this one
+      this.api.request('swlist').then(function (data) {
+        var state = undefined;
+
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = data.reponse[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var sw = _step.value;
+
+            if (sw.id === _this.id) {
+              state = sw.state === 'on' ? 1 : 0;
+              break;
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator['return']) {
+              _iterator['return']();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        callback(null, state);
+      })['catch'](function (error) {
+        callback(error, 0);
+      });
+    }
+  }, {
     key: 'setPowerState',
     value: function setPowerState(state, callback) {
-      var _this = this;
+      var _this2 = this;
 
       var value = state ? 'on' : 'off';
       var url = 'sw/' + this.id + '/' + value;
 
       this.api.request({ url: url }).then(function () {
-        _this.log('Switched ' + _this.name + ' to: ' + value);
+        _this2.log('Switched ' + _this2.name + ' to: ' + value);
         callback();
       })['catch'](function (error) {
         callback(error);
