@@ -48,7 +48,8 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
 
   getPowerState(callback) {
     this.getCurrentValues().then(sw => {
-      const state = sw.state === 'on' ? 1 : 0;
+      const state = sw.status === 'on' ? 1 : 0;
+      this.log(`Retrieved power state for: ${this.name} - ${state}`);
       callback(null, state);
     }).catch(error => {
       callback(error, 0);

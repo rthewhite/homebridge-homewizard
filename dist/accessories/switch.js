@@ -74,8 +74,11 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
   }, {
     key: 'getPowerState',
     value: function getPowerState(callback) {
+      var _this3 = this;
+
       this.getCurrentValues().then(function (sw) {
-        var state = sw.state === 'on' ? 1 : 0;
+        var state = sw.status === 'on' ? 1 : 0;
+        _this3.log('Retrieved power state for: ' + _this3.name + ' - ' + state);
         callback(null, state);
       })['catch'](function (error) {
         callback(error, 0);
@@ -84,10 +87,10 @@ var HomeWizardSwitch = (function (_HomeWizardBaseAccessory) {
   }, {
     key: 'setBrightness',
     value: function setBrightness(value, callback) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.api.request({ url: 'sw/dim/' + this.id + '/' + value }).then(function () {
-        _this3.log('Set brightness for: ' + _this3.name + ' to: ' + value);
+        _this4.log('Set brightness for: ' + _this4.name + ' to: ' + value);
         callback();
       })['catch'](function (error) {
         callback(error);
