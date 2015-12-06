@@ -4,6 +4,14 @@
   "description": "Plugin for Homebridge to communicate with HomeWizard",
   "author": "Raymond de Wit",
   "license": "ISC",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/rthewhite/homebridge-homewizard.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/rthewhite/homebridge-homewizard/issues",
+    "email" : "raymond@thewhite.nl"
+  },
   "main": "dist/platform.js",
   "keywords": [
     "homebridge-plugin",
