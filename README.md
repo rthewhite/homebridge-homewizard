@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rthewhite/homebridge-homewizard.svg?branch=master)](https://travis-ci.org/rthewhite/homebridge-homewizard)
+
 # homebridge-homewizard
 This plugin will add platform support for HomeWizard to Homebridge.
 And therefore give you the ability to control all devices and sensors attached to your HomeWizard with Siri!
