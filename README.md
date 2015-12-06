@@ -1,4 +1,13 @@
-[![Build Status](https://travis-ci.org/rthewhite/homebridge-homewizard.svg?branch=master)](https://travis-ci.org/rthewhite/homebridge-homewizard)
+[![travis][travis-image]][travis-url]
+[![npm][npm-image]][npm-url]
+[![downloads][downloads-image]][downloads-url]
+
+[travis-image]: https://img.shields.io/travis/rthewhite/homebridge-homewizard.svg?style=flat
+[travis-url]: https://travis-ci.org/rthewhite/homebridge-homewizard
+[npm-image]: https://img.shields.io/npm/v/homebridge-homewizard.svg?style=flat
+[npm-url]: https://npmjs.org/package/homebridge-homewizard
+[downloads-image]: https://img.shields.io/npm/dm/homebridge-homewizard.svg?style=flat
+[downloads-url]: https://npmjs.org/package/homebridge-homewizard
 
 # homebridge-homewizard
 This plugin will add platform support for HomeWizard to Homebridge.
