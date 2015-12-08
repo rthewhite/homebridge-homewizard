@@ -16,13 +16,17 @@ export class AccessoriesFactory {
     this.accessories = [];
 
     // Create switches
-    for (const switchDevice of devices.switches) {
-      this._instantiateAccessory(HomeWizardSwitch, switchDevice);
+    if (devices.switches) {
+      for (const switchDevice of devices.switches) {
+        this._instantiateAccessory(HomeWizardSwitch, switchDevice);
+      }
     }
 
     // Create thermometers
-    for (const thermometer of devices.thermometers) {
-      this._instantiateAccessory(HomeWizardThermometer, thermometer);
+    if (devices.thermometers) {
+      for (const thermometer of devices.thermometers) {
+        this._instantiateAccessory(HomeWizardThermometer, thermometer);
+      }
     }
 
     return this.accessories;
