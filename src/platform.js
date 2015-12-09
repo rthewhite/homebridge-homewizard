@@ -1,3 +1,4 @@
+require('babel-polyfill');
 import {API} from './api';
 import {AccessoriesFactory} from './accessories';
 
@@ -20,7 +21,7 @@ class HomewizardPlatform {
     }).catch(error => {
       this.log('Failed to retrieve accessories from HomeWizard');
       this.log(JSON.stringify(error));
-      callback(null);
+      callback(error);
     });
   }
 }

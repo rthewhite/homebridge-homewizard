@@ -12,6 +12,8 @@ var _api = require('./api');
 
 var _accessories = require('./accessories');
 
+require('babel-polyfill');
+
 var homebridge = undefined;
 
 var HomewizardPlatform = (function () {
@@ -37,7 +39,7 @@ var HomewizardPlatform = (function () {
       })['catch'](function (error) {
         _this.log('Failed to retrieve accessories from HomeWizard');
         _this.log(JSON.stringify(error));
-        callback(null);
+        callback(error);
       });
     }
   }]);
