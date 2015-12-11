@@ -18,24 +18,65 @@ var API = (function () {
   function API(config) {
     _classCallCheck(this, API);
 
+    this.queue = [];
+    this.running = [];
+    this.limit = 3;
+
     this.config = config;
   }
 
-  _createClass(API, [{
-    key: 'request',
-    value: function request(options) {
+  // Called when a promise from the queue resolves
 
-      if (!options.method) {
-        options.method = 'GET';
+  _createClass(API, [{
+    key: '_queueResolve',
+    value: function _queueResolve() {
+      // Just popping an item. We just need to queue to shrink,
+      // so items in the queue aren't always the non resolved promises!
+      this.running.pop();
+
+      if (this.queue.length > 0 && this.running.length < this.limit) {
+        var next = this.queue.shift();
+        this.running.push(next);
+        next.resolve();
+      }
+    }
+  }, {
+    key: '_queueSlot',
+    value: function _queueSlot() {
+      var deferred = new Promise();
+
+      if (this.running.length < this.limit) {
+        this.running.push(deferred);
+        deferred.resolve();
+      } else {
+        this.queue.push(deferred);
       }
 
-      // Transform url to full uri for request
-      options.uri = this.config.url + '/' + this.config.password + '/' + options.url;
+      return deferred.promise;
+    }
+  }, {
+    key: 'request',
+    value: function request(options) {
+      var _this = this;
 
-      // Homewizard responses are always json
-      options.json = true;
+      var queueSlot = this._queueSlot();
 
-      return (0, _requestPromise2['default'])(options);
+      queueSlot.then(function () {
+        if (!options.method) {
+          options.method = 'GET';
+        }
+
+        // Transform url to full uri for request
+        options.uri = _this.config.url + '/' + _this.config.password + '/' + options.url;
+
+        // Homewizard responses are always json
+        options.json = true;
+
+        return (0, _requestPromise2['default'])(options);
+      }).then(function (response) {
+        _this._queueResolve();
+        return response;
+      });
     }
   }]);
 
