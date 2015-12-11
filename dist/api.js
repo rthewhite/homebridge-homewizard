@@ -14,6 +14,12 @@ var _requestPromise = require('request-promise');
 
 var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
+var _q = require('q');
+
+var _q2 = _interopRequireDefault(_q);
+
+//eslint-disable-line id-length
+
 var API = (function () {
   function API(config) {
     _classCallCheck(this, API);
@@ -43,7 +49,7 @@ var API = (function () {
   }, {
     key: '_queueSlot',
     value: function _queueSlot() {
-      var deferred = new Promise();
+      var deferred = _q2['default'].defer();
 
       if (this.running.length < this.limit) {
         this.running.push(deferred);

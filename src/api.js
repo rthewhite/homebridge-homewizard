@@ -1,4 +1,5 @@
 import request from 'request-promise';
+import q from 'q'; //eslint-disable-line id-length
 
 export class API {
   queue = [];
@@ -23,7 +24,7 @@ export class API {
   }
 
   _queueSlot() {
-    const deferred = new Promise();
+    const deferred = q.defer();
 
     if (this.running.length < this.limit) {
       this.running.push(deferred);
