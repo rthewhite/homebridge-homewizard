@@ -67,7 +67,7 @@ var API = (function () {
 
       var queueSlot = this._queueSlot();
 
-      queueSlot.then(function () {
+      return queueSlot.then(function () {
         if (!options.method) {
           options.method = 'GET';
         }

@@ -39,7 +39,7 @@ export class API {
   request(options) {
     const queueSlot = this._queueSlot();
 
-    queueSlot.then(() => {
+    return queueSlot.then(() => {
       if (!options.method) {
         options.method = 'GET';
       }
