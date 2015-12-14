@@ -35,6 +35,14 @@ module.exports = function(grunt) {
         files: ['src/**/*.js'],
         tasks: ['babel:build']
       }
+    },
+    release: {
+      options: {
+        beforeBump: ['build']
+      }
+    },
+    coveralls: {
+      src: 'coverage/lcov.info'
     }
   });
 
@@ -44,6 +52,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-release');
+  grunt.loadNpmTasks('grunt-coveralls');
 
   grunt.registerTask('dev', [
     'clean',
