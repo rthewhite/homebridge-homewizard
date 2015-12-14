@@ -1,4 +1,5 @@
 [![travis][travis-image]][travis-url]
+[![Coverage Status](https://coveralls.io/repos/rthewhite/homebridge-homewizard/badge.svg?branch=master&service=github)](https://coveralls.io/github/rthewhite/homebridge-homewizard?branch=master)
 [![npm][npm-image]][npm-url]
 [![downloads][downloads-image]][downloads-url]
 
