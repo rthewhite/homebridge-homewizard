@@ -14,5 +14,5 @@ script:
   - grunt build
   - npm test --coverage
 
-after_succes:
+after_success:
   - grunt coveralls
