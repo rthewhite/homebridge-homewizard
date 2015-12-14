@@ -40,6 +40,7 @@
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-coveralls": "^1.0.0",
     "grunt-eslint": "^17.3.1",
     "grunt-release": "^0.13.0",
     "mocha": "^2.3.4",
