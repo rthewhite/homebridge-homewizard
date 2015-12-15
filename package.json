@@ -44,7 +44,8 @@
     "grunt-eslint": "^17.3.1",
     "grunt-release": "^0.13.0",
     "mocha": "^2.3.4",
-    "should": "^8.0.1"
+    "should": "^8.0.1",
+    "sinon": "^1.17.2"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",

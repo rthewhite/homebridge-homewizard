@@ -4,7 +4,7 @@ import {AccessoriesFactory} from './accessories';
 
 let homebridge;
 
-class HomewizardPlatform {
+export class HomewizardPlatform {
   constructor(log, config) {
     this.log = log;
     this.config = config;
