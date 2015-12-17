@@ -11,17 +11,18 @@ export class HomewizardPlatform {
 
     // Instantiate the API
     this.api = new API(this.config);
+
+    // Instantiate the accessories factory
+    this.factory = new AccessoriesFactory(this.log, this.config, this.api, homebridge);
   }
 
   accessories(callback) {
     this.api.request({url: 'get-sensors'}).then(data => {
-      const factory = new AccessoriesFactory(this.log, this.config, this.api, homebridge);
-      const accessories = factory.getAccessories(data.response);
-      callback(accessories);
+      this.log('Successfully retrieved accessories from HomeWizard', JSON.stringify(data.response));
+      callback(this.factory.getAccessories(data.response));
     }).catch(error => {
-      this.log('Failed to retrieve accessories from HomeWizard');
-      this.log(JSON.stringify(error));
-      callback(error);
+      this.log('Failed to retrieve accessories from HomeWizard', JSON.stringify(error));
+      callback(null, error);
     });
   }
 }

@@ -1,6 +1,7 @@
 {
   "presets": ["es2015"],
   "plugins": [
+    "babel-plugin-rewire",
     "transform-es2015-modules-commonjs",
     "transform-class-properties"
   ]

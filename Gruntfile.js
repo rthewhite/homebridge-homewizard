@@ -31,9 +31,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      dev: {
+      src: {
         files: ['src/**/*.js'],
-        tasks: ['babel:build']
+        tasks: ['babel:build', 'mochaTest']
+      },
+      tests: {
+        files: ['test/**/*.js'],
+        tasks: ['mochaTest']
       }
     },
     release: {
@@ -43,6 +47,15 @@ module.exports = function(grunt) {
     },
     coveralls: {
       src: 'coverage/lcov.info'
+    },
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          require: 'babel-register'
+        },
+        src: ['test/**/*.js']
+      }
     }
   });
 
@@ -53,10 +66,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-coveralls');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('dev', [
     'clean',
-    'babel:build',
+    // 'babel:build',
     'watch'
   ]);
 
