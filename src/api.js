@@ -1,7 +1,8 @@
+import 'babel-polyfill';
 import request from 'request-promise';
 import q from 'q'; //eslint-disable-line id-length
 
-export class API {
+export class HomeWizardApi {
   queue = [];
   running = [];
   limit = 3;
@@ -50,10 +51,12 @@ export class API {
       // Homewizard responses are always json
       options.json = true;
 
-      return request(options);
-    }).then(response => {
-      this._queueResolve();
-      return response;
+      const promise = request(options);
+      promise.then(() => {
+        this._queueResolve();
+      });
+
+      return promise;
     });
   }
 }

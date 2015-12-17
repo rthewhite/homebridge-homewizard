@@ -5,7 +5,7 @@
     "babel"
   ],
   "env": {
-    "node": false,
+    "node": true,
     "es6": true,
     "amd": true,
     "browser": true,

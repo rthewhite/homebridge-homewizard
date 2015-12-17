@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import {HomeWizardBaseAccessory} from './accessory';
 
 export class HomeWizardSwitch extends HomeWizardBaseAccessory {

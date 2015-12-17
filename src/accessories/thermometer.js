@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import {HomeWizardBaseAccessory} from './accessory';
 
 export class HomeWizardThermometer extends HomeWizardBaseAccessory {

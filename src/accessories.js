@@ -1,10 +1,11 @@
+import 'babel-polyfill';
 import {HomeWizardSwitch} from './accessories/switch';
 import {HomeWizardThermometer} from './accessories/thermometer';
 
 export class AccessoriesFactory {
   accessories = [];
 
-  constructor(log, config, api = {}, homebridge) {
+  constructor(log, config, api, homebridge) {
     this.log = log;
     this.config = config;
     this.api = api;

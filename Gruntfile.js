@@ -21,6 +21,17 @@ module.exports = function(grunt) {
     },
 
     babel: {
+      // Not using babelrc here. We dont want rewire in the build
+      // mochaTest is only able to use the babelrc....
+      options: {
+        babelrc: false,
+        presets: ['es2015'],
+        plugins: [
+          'transform-class-properties',
+          'transform-export-extensions',
+          'add-module-exports'
+        ]
+      },
       build: {
         files: [{
           expand: true,
@@ -70,7 +81,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', [
     'clean',
-    // 'babel:build',
+    'babel:build',
     'watch'
   ]);
 

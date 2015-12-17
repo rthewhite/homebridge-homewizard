@@ -1,10 +1,11 @@
+import 'babel-polyfill';
 export class HomeWizardBaseAccessory {
-
   services = [];
 
   manufacturer = 'HomeWizard';
 
   constructor(log, config, api, homebridge, hwObject) {
+
     this.log = log;
     this.config = config;
     this.api = api;
