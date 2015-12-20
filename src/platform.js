@@ -16,11 +16,21 @@ export class HomeWizardPlatform {
 
   accessories(callback) {
     this.api.request({url: 'get-sensors'}).then(data => {
-      this.log('Successfully retrieved accessories from HomeWizard', JSON.stringify(data.response));
+      this.log('Successfully retrieved accessories from HomeWizard');
+
+      if (this.config && this.config.debug) {
+        this.log(JSON.stringify(data.response));
+      }
+
       const accessories = this.factory.getAccessories(data.response);
       callback(accessories);
     }).catch(error => {
-      this.log('Failed to retrieve accessories from HomeWizard', JSON.stringify(error));
+      this.log('Failed to retrieve accessories from HomeWizard');
+
+      if (this.config && this.config.debug) {
+        this.log(JSON.stringify(error));
+      }
+
       callback(null, error);
     });
   }

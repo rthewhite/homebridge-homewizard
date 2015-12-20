@@ -45,18 +45,26 @@ export class HomeWizardApi {
         options.method = 'GET';
       }
 
+      options.followRedirect = true;
+      options.followAllRedirects = true;
+      options.resolveWithFullResponse = true;
+
       // Transform url to full uri for request
       options.uri = `${this.config.url}/${this.config.password}/${options.url}`;
 
       // Homewizard responses are always json
       options.json = true;
 
-      const promise = request(options);
-      promise.then(() => {
+      return request(options).then(response => {
         this._queueResolve();
-      });
 
-      return promise;
+        // Only log full response if in debug mode
+        if (this.config && this.config.debug) {
+          this.log(response);
+        }
+
+        return response.body;
+      });
     });
   }
 }
