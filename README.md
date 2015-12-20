@@ -55,6 +55,7 @@ Options:
 - password: The password of your HomeWizard
 - filtered(optional): Array of accessories that will be ignored by the plugin. If you have a switch in your
 HomeWizard you dont want to expose to Siri. But the name in here and it will be ignored.
+- debug(optional): when set to true enables some extra logging regarding the http requests, usefull for debugging
 
 ```
 {
@@ -70,7 +71,8 @@ HomeWizard you dont want to expose to Siri. But the name in here and it will be 
       "platform": "HomeWizard",
       "url": "http://192.168.1.155",
       "password": "<yourhomewizardpassword>",
-      "filtered": ["deviceName"]
+      "filtered": ["deviceName"],
+      "debug": false
    }]
 }
 ```

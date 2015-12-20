@@ -11,6 +11,7 @@
       "platform": "HomeWizard",
       "url": "http://192.168.1.155",
       "password": "<yourhomewizardpassword>",
-      "filtered": ["deviceName"]
+      "filtered": ["deviceName"],
+      "debug": false
    }]
 }
