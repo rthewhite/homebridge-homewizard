@@ -42,7 +42,7 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
       callback();
     }).catch(error => {
       this.log(`Failed to switch ${this.name}`);
-      this.log(JSON.stringify(error));
+      this.log(error);
       callback(error);
     });
   }

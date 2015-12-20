@@ -26,7 +26,7 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
       return data.response[data.response.length - 1];
     }).catch(error => {
       this.log(`Failed to retrieve temperature/humidity for: ${this.name}`);
-      this.log(JSON.stringify(error));
+      this.log(error);
       callback(error, null);
     });
   }

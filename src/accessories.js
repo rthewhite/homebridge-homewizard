@@ -13,7 +13,9 @@ export class AccessoriesFactory {
     this.homebridge = homebridge;
 
     if (config && config.filtered) {
-      this.filtered = config.filtered;
+      for (const filter of config.filtered) {
+        this.filtered.push(filter.trim());
+      }
     }
   }
 
@@ -40,7 +42,7 @@ export class AccessoriesFactory {
 
   // Instantiates a new object of the given DeviceClass
   _instantiateAccessory(DeviceClass, deviceInfo) {
-    if (this.filtered.indexOf(deviceInfo.name) === -1) {
+    if (this.filtered.indexOf(deviceInfo.name.trim()) === -1) {
       const accessory = new DeviceClass(this.log, this.config, this.api, this.homebridge, deviceInfo);
       this.accessories.push(accessory);
     } else {

@@ -7,8 +7,9 @@ export class HomeWizardApi {
   running = [];
   limit = 3;
 
-  constructor(config) {
+  constructor(config, log) {
     this.config = config;
+    this.log = log;
   }
 
   // Called when a promise from the queue resolves
@@ -50,7 +51,12 @@ export class HomeWizardApi {
       options.resolveWithFullResponse = true;
 
       // Transform url to full uri for request
-      options.uri = `${this.config.url}/${this.config.password}/${options.url}`;
+      options.uri = this.config.url;
+
+      if (this.config.port) {
+        options.uri += `:${this.config.port}`;
+      }
+      options.uri += `/${this.config.password}/${options.url}`;
 
       // Homewizard responses are always json
       options.json = true;
@@ -58,11 +64,11 @@ export class HomeWizardApi {
       return request(options).then(response => {
         this._queueResolve();
 
-        // Only log full response if in debug mode
         if (this.config && this.config.debug) {
           this.log(response);
         }
 
+        // Only log full response if in debug mode
         return response.body;
       });
     });
