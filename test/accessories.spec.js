@@ -55,4 +55,20 @@ describe('Class AccessoriesFactory ', () => {
 
     AccessoriesFactoryRewire.__ResetDependency__('HomeWizardSwitch');
   });
+
+  it('filtered accessories should be skipped', () => {
+    const logger = sinon.spy();
+    const config = {
+      filtered: ['switchOne']
+    };
+    const api = 'api';
+    const homebridge = 'homebridge';
+
+    const factory = new AccessoriesFactory(logger, config, api, homebridge);
+    const devices = {switches: [{name: 'switchOne'}]};
+
+    factory.getAccessories(devices);
+
+    expect(logger).to.have.been.calledWith('Skipping: switchOne because its filtered in the config');
+  });
 });

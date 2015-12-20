@@ -44,6 +44,37 @@ and setup on your iOS device. All devices that homebridge-homewizard currently
 supports should popup on your iOS device as accessories in Homekit.
 
 
+## Config
+Below is an example configuration for Homebridge. To run the HomeWizard plugin you need to add the
+platform object in the platforms array like below. The accessories array, has not functionality
+regarding the HomeWizard plugin and is used by Homebridge for other plugins etc.
+
+Options:
+- platform: should always be HomeWizard
+- url: The url to your HomeWizard
+- password: The password of your HomeWizard
+- filtered(optional): Array of accessories that will be ignored by the plugin. If you have a switch in your
+HomeWizard you dont want to expose to Siri. But the name in here and it will be ignored.
+
+```
+{
+  "bridge": {
+      "name": "Homebridge - DEV",
+      "username": "CC:22:3D:E3:CE:40",
+      "port": 51826,
+      "pin": "031-45-156"
+  },
+  "description": "Example configuration for Homebridge using the HomeWizard platform.",
+  "accessories": [],
+  "platforms": [{
+      "platform": "HomeWizard",
+      "url": "http://192.168.1.155",
+      "password": "<yourhomewizardpassword>",
+      "filtered": ["deviceName"]
+   }]
+}
+```
+
 ## Developing
 All help developing this plugin is welcome. Homebridge-homewizard is written in ES6 and transpiled using Babel.
 
@@ -53,5 +84,6 @@ the accessories folder. See for example switch or thermometer, next to that you 
 the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 ## Changelog
+- 0.0.18 - Added possibility to filter out accessories based on name
 - 0.0.15 - Fixed issue where multiple api calls at the same time would fail, they are being queued now
 - 0.0.12 - First stable release

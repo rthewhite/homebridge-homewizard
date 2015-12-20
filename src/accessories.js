@@ -4,12 +4,17 @@ import {HomeWizardThermometer} from './accessories/thermometer';
 
 export class AccessoriesFactory {
   accessories = [];
+  filtered = [];
 
   constructor(log, config, api, homebridge) {
     this.log = log;
     this.config = config;
     this.api = api;
     this.homebridge = homebridge;
+
+    if (config && config.filtered) {
+      this.filtered = config.filtered;
+    }
   }
 
   getAccessories(devices) {
@@ -35,7 +40,11 @@ export class AccessoriesFactory {
 
   // Instantiates a new object of the given DeviceClass
   _instantiateAccessory(DeviceClass, deviceInfo) {
-    const accessory = new DeviceClass(this.log, this.config, this.api, this.homebridge, deviceInfo);
-    this.accessories.push(accessory);
+    if (this.filtered.indexOf(deviceInfo.name) === -1) {
+      const accessory = new DeviceClass(this.log, this.config, this.api, this.homebridge, deviceInfo);
+      this.accessories.push(accessory);
+    } else {
+      this.log(`Skipping: ${deviceInfo.name} because its filtered in the config`);
+    }
   }
 }
