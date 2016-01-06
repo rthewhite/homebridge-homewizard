@@ -7,9 +7,13 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
 
   setupServices() {
     const temperatureSensorService = new this.hap.Service.TemperatureSensor();
-    temperatureSensorService
-       .getCharacteristic(this.hap.Characteristic.CurrentTemperature)
-       .on('get', this.getTemperature.bind(this));
+
+    const service = temperatureSensorService;
+    const characteristic = service.getCharacteristic(this.hap.Characteristic.CurrentTemperature);
+
+    // Make sure negative temps are working...
+    characteristic.props.minValue = -50;
+    characteristic.on('get', this.getTemperature.bind(this));
 
     this.services.push(temperatureSensorService);
 
