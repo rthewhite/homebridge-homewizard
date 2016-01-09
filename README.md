@@ -79,12 +79,17 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
 ## Know issues
 - When there are special characters being used in the password this might lead to problems connecting to the HomeWizard because of encoding issue.
 
-#### FAQ
-# How do i update to a newer version of the plugin?
+## FAQ
+- How do i update to a newer version of the plugin?
 Run the following command, with sudo if needed on your platform:
 ```
 npm update Homebridge-homewizard -g
 ```
+
+- I'm having issues, now what?
+Please make sure you are always running on the latest version of the plugin, use the above update command.
+If you still have issues, please file a issue on Github explaining the issue you are running into.
+
 
 ## Developing
 All help developing this plugin is welcome. Homebridge-homewizard is written in ES6 and transpiled using Babel.
