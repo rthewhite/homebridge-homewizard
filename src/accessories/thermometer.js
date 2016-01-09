@@ -16,17 +16,18 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
 
     // Humidity service
     const humiditySensorService = new this.hap.Service.HumiditySensor();
+
     humiditySensorService
       .getCharacteristic(this.hap.Characteristic.CurrentRelativeHumidity)
       .on('get', this.getHumidity.bind(this));
 
     // Add battery status to services
     temperatureSensorService
-      .addCharacteristic(this.hap.Characteristic.StatusLowBattery) //eslint-disable-line
+      .addCharacteristic(new this.hap.Characteristic.StatusLowBattery()) //eslint-disable-line
       .on('get', this.getLowBatteryStatus.bind(this));
 
     humiditySensorService
-      .addCharacteristic(this.hap.Characteristic.StatusLowBattery) //eslint-disable-line
+      .addCharacteristic(new this.hap.Characteristic.StatusLowBattery()) //eslint-disable-line
       .on('get', this.getLowBatteryStatus.bind(this));
 
     // Add services
@@ -59,9 +60,16 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
   }
 
   getLowBatteryStatus(callback) {
-    this.getValues(callback).then(currentValues => {
-      this.log(`Retrieved low battery status for: ${this.name}: ${currentValues.lowBattery}`);
-      callback(null, currentValues.lowBattery === 'yes');
+    this.api.request({url: 'get-sensors'}).then(data => {
+      const thermometer = data.response.thermometers.find(sensor => {
+        return sensor.id === this.id;
+      });
+
+      if (thermometer.lowBattery === 'yes') {
+        this.log(`Low battery level for: ${this.name}`);
+      }
+
+      callback(null, thermometer.lowBattery === 'yes');
     });
   }
 }
