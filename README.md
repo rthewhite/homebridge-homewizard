@@ -43,7 +43,6 @@ When you have installed homebridge and homebridge-homewizard and got them runnin
 and setup on your iOS device. All devices that homebridge-homewizard currently
 supports should popup on your iOS device as accessories in Homekit.
 
-
 ## Config
 Below is an example configuration for Homebridge. To run the HomeWizard plugin you need to add the
 platform object in the platforms array like below. The accessories array, has not functionality
@@ -54,7 +53,7 @@ Options:
 - url: The url to your HomeWizard
 - password: The password of your HomeWizard
 - filtered(optional): Array of accessories that will be ignored by the plugin. If you have a switch in your
-HomeWizard you dont want to expose to Siri. But the name in here and it will be ignored.
+HomeWizard you don't want to expose to Siri. Put the name in here and it will be ignored.
 - debug(optional): when set to true enables some extra logging regarding the http requests, usefull for debugging
 
 ```
@@ -77,15 +76,27 @@ HomeWizard you dont want to expose to Siri. But the name in here and it will be 
 }
 ```
 
+## Know issues
+- When there are special characters being used in the password this might lead to problems connecting to the HomeWizard because of encoding issue.
+
+#### FAQ
+# How do i update to a newer version of the plugin?
+Run the following command, with sudo if needed on your platform:
+```
+npm update Homebridge-homewizard -g
+```
+
 ## Developing
 All help developing this plugin is welcome. Homebridge-homewizard is written in ES6 and transpiled using Babel.
+Code styles are evaluated using Eslint to make sure all codes looks the same. If you need help to setup let me know.
 
 ### Adding device support
 If you want to add support for new devices, you will need to create a new accessory class in
 the accessories folder. See for example switch or thermometer, next to that you will need to make
 the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
-## Changelog
+# Changelog
+- 0.0.25 - Addes support for klik aan klik uit motion sensors and light sensors
 - 0.0.18 - Added possibility to filter out accessories based on name
 - 0.0.15 - Fixed issue where multiple api calls at the same time would fail, they are being queued now
 - 0.0.12 - First stable release
