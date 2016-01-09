@@ -22,11 +22,11 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
 
     // Add battery status to services
     temperatureSensorService
-      .addCharacteristic(this.hap.Characteristic.StatusLowBattery()) //eslint-disable-line
+      .addCharacteristic(this.hap.Characteristic.StatusLowBattery) //eslint-disable-line
       .on('get', this.getLowBatteryStatus.bind(this));
 
     humiditySensorService
-      .addCharacteristic(this.hap.Characteristic.StatusLowBattery()) //eslint-disable-line
+      .addCharacteristic(this.hap.Characteristic.StatusLowBattery) //eslint-disable-line
       .on('get', this.getLowBatteryStatus.bind(this));
 
     // Add services
