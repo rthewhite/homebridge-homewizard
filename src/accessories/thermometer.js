@@ -6,22 +6,31 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
   model = 'Thermometer';
 
   setupServices() {
+    // Temperature service
     const temperatureSensorService = new this.hap.Service.TemperatureSensor();
-
-    const service = temperatureSensorService;
-    const characteristic = service.getCharacteristic(this.hap.Characteristic.CurrentTemperature);
+    const characteristic = temperatureSensorService.getCharacteristic(this.hap.Characteristic.CurrentTemperature);
 
     // Make sure negative temps are working...
     characteristic.props.minValue = -50;
     characteristic.on('get', this.getTemperature.bind(this));
 
-    this.services.push(temperatureSensorService);
-
+    // Humidity service
     const humiditySensorService = new this.hap.Service.HumiditySensor();
     humiditySensorService
       .getCharacteristic(this.hap.Characteristic.CurrentRelativeHumidity)
       .on('get', this.getHumidity.bind(this));
 
+    // Add battery status to services
+    temperatureSensorService
+      .addCharacteristic(this.hap.Characteristic.StatusLowBattery()) //eslint-disable-line
+      .on('get', this.getLowBatteryStatus.bind(this));
+
+    humiditySensorService
+      .addCharacteristic(this.hap.Characteristic.StatusLowBattery()) //eslint-disable-line
+      .on('get', this.getLowBatteryStatus.bind(this));
+
+    // Add services
+    this.services.push(temperatureSensorService);
     this.services.push(humiditySensorService);
   }
 
@@ -46,6 +55,13 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
     this.getValues(callback).then(currentValues => {
       this.log(`Retrieved temperature for: ${this.name} its ${currentValues.te} degrees`);
       callback(null, currentValues.te);
+    });
+  }
+
+  getLowBatteryStatus(callback) {
+    this.getValues(callback).then(currentValues => {
+      this.log(`Retrieved low battery status for: ${this.name}: ${currentValues.lowBattery}`);
+      callback(null, currentValues.lowBattery === 'yes');
     });
   }
 }
