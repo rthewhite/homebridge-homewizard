@@ -28,13 +28,22 @@ describe('Class AccessoriesFactory ', () => {
     const factory = new AccessoriesFactory(logger, config, api, homebridge);
     const devices = {
       switches: [{name: 'switchOne'}],
-      thermometers: [{name: 'thermometerOne'}]
+      thermometers: [{name: 'thermometerOne'}],
+      kakusensors: [
+        {
+          name: 'motionOne',
+          type: 'motion'
+        }, {
+          name: 'lightOne',
+          type: 'light'
+        }
+      ]
     };
 
     const accessories = factory.getAccessories(devices);
 
     expect(accessories).to.be.a('array');
-    expect(accessories.length).to.equal(2);
+    expect(accessories.length).to.equal(4);
   });
 
   it('accessories constructor should be called with: logger, config, api, homebridge and deviceInfo', () => {

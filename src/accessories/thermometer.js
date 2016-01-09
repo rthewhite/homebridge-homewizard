@@ -36,8 +36,10 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
   }
 
   getValues(callback) {
-    return this.api.request({url: `te/graph/${this.id}/day`}).then(data => {
-      return data.response[data.response.length - 1];
+    return this.api.request({url: 'get-status'}).then(data => {
+      return data.response.thermometers.find(sensor => {
+        return sensor.id === this.id;
+      });
     }).catch(error => {
       this.log(`Failed to retrieve temperature/humidity for: ${this.name}`);
       this.log(error);
@@ -65,11 +67,13 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
         return sensor.id === this.id;
       });
 
-      if (thermometer.lowBattery === 'yes') {
-        this.log(`Low battery level for: ${this.name}`);
+      const lowBattery = thermometer.lowBattery === 'yes';
+
+      if (lowBattery) {
+        this.log(`Low battery level for thermometer: ${this.name}`);
       }
 
-      callback(null, thermometer.lowBattery === 'yes');
+      callback(null, lowBattery);
     });
   }
 }

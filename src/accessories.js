@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 import {HomeWizardSwitch} from './accessories/switch';
 import {HomeWizardThermometer} from './accessories/thermometer';
+import {HomeWizardMotionSensor} from './accessories/motion-sensor';
+import {HomeWizardLightSensor} from './accessories/light-sensor';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -34,6 +36,17 @@ export class AccessoriesFactory {
     if (devices.thermometers) {
       for (const thermometer of devices.thermometers) {
         this._instantiateAccessory(HomeWizardThermometer, thermometer);
+      }
+    }
+
+    // Create kaku sensors
+    if (devices.kakusensors) {
+      for (const kakusensor of devices.kakusensors) {
+        if (kakusensor.type === 'motion') {
+          this._instantiateAccessory(HomeWizardMotionSensor, kakusensor);
+        } else if (kakusensor.type === 'light') {
+          this._instantiateAccessory(HomeWizardLightSensor, kakusensor);
+        }
       }
     }
 
