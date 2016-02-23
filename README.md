@@ -20,6 +20,9 @@ If you are interested in helping out, or would like to see support for something
 - Switches
 - Dimmers
 - Thermometers
+- Motion sensors
+- Light sensors
+- Somfy shutters (thanks to: ygageot)
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
