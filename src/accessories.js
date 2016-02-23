@@ -4,6 +4,7 @@ import {HomeWizardThermometer} from './accessories/thermometer';
 import {HomeWizardMotionSensor} from './accessories/motion-sensor';
 import {HomeWizardLightSensor} from './accessories/light-sensor';
 import {HomeWizardSomfyShutter} from './accessories/somfy-shutter';
+import {HomeWizardPhilipsHue} from './accessories/philips-hue';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -22,20 +23,29 @@ export class AccessoriesFactory {
     }
   }
 
+  createSwitches(devices) {
+    if (devices.switches) {
+      for (const switchDevice of devices.switches) {
+        switch (switchDevice.type) {
+          case 'somfy':
+            this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
+            break;
+          case 'hue':
+            this._instantiateAccessory(HomeWizardPhilipsHue, switchDevice);
+            break;
+          default:
+            this._instantiateAccessory(HomeWizardSwitch, switchDevice);
+        }
+      }
+    }
+  }
+
   getAccessories(devices) {
     // To be sure start with empty array
     this.accessories = [];
 
     // Create switches
-    if (devices.switches) {
-      for (const switchDevice of devices.switches) {
-        if (switchDevice.type === 'somfy') {
-          this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
-        } else {
-          this._instantiateAccessory(HomeWizardSwitch, switchDevice);
-        }
-      }
-    }
+    this.createSwitches(devices);
 
     // Create thermometers
     if (devices.thermometers) {
