@@ -3,6 +3,7 @@ import {HomeWizardSwitch} from './accessories/switch';
 import {HomeWizardThermometer} from './accessories/thermometer';
 import {HomeWizardMotionSensor} from './accessories/motion-sensor';
 import {HomeWizardLightSensor} from './accessories/light-sensor';
+import {HomeWizardSomfyShutter} from './accessories/somfy-shutter';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -28,7 +29,11 @@ export class AccessoriesFactory {
     // Create switches
     if (devices.switches) {
       for (const switchDevice of devices.switches) {
-        this._instantiateAccessory(HomeWizardSwitch, switchDevice);
+        if(switchDevice.type === 'somfy') {
+          this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
+        } else {
+          this._instantiateAccessory(HomeWizardSwitch, switchDevice);
+        }
       }
     }
 
