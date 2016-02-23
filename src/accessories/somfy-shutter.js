@@ -6,8 +6,8 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
   model = 'Somfy Shutter';
 
   // only 3 actions for Somfy : Up, Down, Stop/MyFavorite
-  // no feed back to know  CurrentPosition or PositionState 
-    
+  // no feed back to know  CurrentPosition or PositionState
+
   setupServices() {
     // Setup services
     const somfyService = new this.hap.Service.WindowCovering();
@@ -22,27 +22,35 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
   }
 
   setTargetPosition(level, callback) {
-  
-    const value = level === 0 ? 'down' : level === 100 ? 'up' : level === 50 ? 'stop': '';
-
     // we action only for level 0, 50 or 100
-    if( value == '') {
-      callback();
-    } else {
-      const url = `sf/${this.id}/${value}`;
-      
-      this.api.request({url}).then(() => {
-      this.log(`Set Somfy for: ${this.name} to: ${value}`);
-        callback();
-      }).catch(error => {
-        this.log(`Failed to set Somfy ${this.name} to: ${value}`);
-        this.log(error);
-        callback(error);
-      });
+    let value;
+    switch (level) {
+      case 0:
+        value = 'down';
+        break;
+      case 50:
+        value = 'stop';
+        break;
+      case 100:
+        value = 'up';
+        break;
+      default:
+        return callback();
     }
+
+    const url = `sf/${this.id}/${value}`;
+
+    this.api.request({url}).then(() => {
+      this.log(`Set Somfy for: ${this.name} to: ${value}`);
+      callback();
+    }).catch(error => {
+      this.log(`Failed to set Somfy ${this.name} to: ${value}`);
+      this.log(error);
+      callback(error);
+    });
   }
 
   getPositionState(callback) {
-    callback(null, this.hap.Characteristic.PositionState.STOPPED)
+    callback(null, this.hap.Characteristic.PositionState.STOPPED);
   }
 }

@@ -29,7 +29,7 @@ export class AccessoriesFactory {
     // Create switches
     if (devices.switches) {
       for (const switchDevice of devices.switches) {
-        if(switchDevice.type === 'somfy') {
+        if (switchDevice.type === 'somfy') {
           this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
         } else {
           this._instantiateAccessory(HomeWizardSwitch, switchDevice);
