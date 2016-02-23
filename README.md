@@ -20,6 +20,9 @@ If you are interested in helping out, or would like to see support for something
 - Switches
 - Dimmers
 - Thermometers
+- Motion sensors
+- Light sensors
+- Somfy shutters (thanks to: ygageot)
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
@@ -101,7 +104,8 @@ the accessories folder. See for example switch or thermometer, next to that you 
 the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
-- 0.0.25 - Addes support for klik aan klik uit motion sensors and light sensors
+- 0.0.27 - Support added for Somfy shutters, thanks to: ygageot!
+- 0.0.25 - Added support for klik aan klik uit motion sensors and light sensors
 - 0.0.18 - Added possibility to filter out accessories based on name
 - 0.0.15 - Fixed issue where multiple api calls at the same time would fail, they are being queued now
 - 0.0.12 - First stable release
