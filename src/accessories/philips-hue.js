@@ -38,16 +38,6 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
     this.services.push(lightbulbService);
   }
 
-  // Sadly there is no individual call to get a sensor status
-  // so retrieve all and find this one
-  getCurrentValues() {
-    return this.api.request({url: 'swlist'}).then(data => {
-      return data.response.find(sw => {
-        return sw.id === this.id;
-      });
-    });
-  }
-
   setPowerState(state, callback) {
     const value = state ? 'on' : 'off';
     this.status = value;
@@ -64,7 +54,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getPowerState(callback) {
-    this.getCurrentValues().then(sw => {
+    this.api.getSwlist(this.id).then(sw => {
       this.status = sw.status;
       this.log(`Retrieved power state for: ${this.name} - ${this.status}`);
       callback(null, this.status);
@@ -102,7 +92,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getHue(callback) {
-    this.getCurrentValues().then(sw => {
+    this.api.getSwlist(this.id).then(sw => {
       this.color = sw.color;
       this.log(`Retrieved Hue for: ${this.name} - ${this.color.hue}`);
       callback(null, this.color.hue);
@@ -112,7 +102,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getSaturation(callback) {
-    this.getCurrentValues().then(sw => {
+    this.api.getSwlist(this.id).then(sw => {
       this.color = sw.color;
       this.log(`Retrieved Saturation for: ${this.name} - ${this.color.sat}`);
       callback(null, this.color.sat);
@@ -122,7 +112,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getBrightness(callback) {
-    this.getCurrentValues().then(sw => {
+    this.api.getSwlist(this.id).then(sw => {
       this.color = sw.color;
       this.log(`Retrieved Brightness for: ${this.name} - ${this.color.bri}`);
       callback(null, this.color.bri);

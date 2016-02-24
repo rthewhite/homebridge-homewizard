@@ -7,6 +7,14 @@ export class HomeWizardApi {
   running = [];
   limit = 3;
 
+  cache = {}
+  cacheTimes = {}
+  cacheDuration = {
+    getStatus: 1000,
+    getSensors: 900000, // half an hour, get sensors is currently only used for battery status
+    getSwlist: 1000
+  }
+
   constructor(config, log) {
     this.config = config;
     this.log = log;
@@ -68,9 +76,82 @@ export class HomeWizardApi {
           this.log(response);
         }
 
-        // Only log full response if in debug mode
         return response.body;
       });
+    });
+  }
+
+  getStatus(accessoryId, accessoryType) {
+    const now = Date.now();
+
+    if (!this.cache.getStatus || now - this.cacheTimes.getStatus > this.cacheDuration.getStatus) {
+      this.cacheTimes.getStatus = now;
+      this.cache.getStatus = this.request({url: 'get-status'});
+    }
+
+    return this.cache.getStatus.then(data => {
+      const accessory = this._getAccessoryByIdAndType(accessoryId, accessoryType, data.response);
+
+      if (!accessory) {
+        throw new Error(`Requested get status for id: ${accessoryId} and type: ${accessoryType}, but now accessory found`);
+      }
+
+      return accessory;
+    });
+  }
+
+  getSensors(accessoryId, accessoryType) {
+    const now = Date.now();
+
+    if (!this.cache.getSensors || now - this.cacheTimes.getSensors > this.cacheDuration.getSensors) {
+      this.cacheTimes.getSensors = now;
+      this.cache.getSensors = this.request({url: 'get-sensors'});
+    }
+
+    return this.cache.getSensors.then(data => {
+      const accessory = this._getAccessoryByIdAndType(accessoryId, accessoryType, data.response);
+
+      if (!accessory) {
+        throw new Error(`Requested get sensors for id: ${accessoryId} and type: ${accessoryType}, but now accessory found`);
+      }
+
+      return accessory;
+    });
+  }
+
+  getSwlist(accessoryId) {
+    const now = Date.now();
+
+    if (!this.cache.getSwlist || now - this.cacheTimes.getSwlist > this.cacheDuration.getSwlist) {
+      this.cacheTimes.getSwlist = now;
+      this.cache.getSwlist = this.request({url: 'swlist'});
+    }
+
+    return this.cache.getSwlist.then(data => {
+      const accessory = this._getAccessoryById(accessoryId, data.response);
+
+      if (!accessory) {
+        throw new Error(`Requested get swlist for id: ${accessoryId}, but now accessory found`);
+      }
+
+      return accessory;
+    });
+  }
+
+  clearCache() {
+    this.cacheTimes = {};
+    this.cache = {};
+  }
+
+  _getAccessoryByIdAndType(accessoryId, accessoryType, items) {
+    if (items[accessoryType]) {
+      return this._getAccessoryById(accessoryId, items[accessoryType]);
+    }
+  }
+
+  _getAccessoryById(id, accessories) {
+    return accessories.find(accessory => {
+      return accessory.id === id;
     });
   }
 }
