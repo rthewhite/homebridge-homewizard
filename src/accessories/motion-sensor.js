@@ -20,18 +20,8 @@ export class HomeWizardMotionSensor extends HomeWizardBaseAccessory {
     this.services.push(motionSensorService);
   }
 
-  // Sadly there is no individual call to get a sensor status
-  // so retrieve all and find this one
-  getCurrentValues() {
-    return this.api.request({url: 'get-status'}).then(data => {
-      return data.response.kakusensors.find(sw => {
-        return sw.id === this.id;
-      });
-    });
-  }
-
   getMotionState(callback) {
-    this.getCurrentValues().then(sensor => {
+    this.api.getStatus(this.id, 'kakusensors').then(sensor => {
       const motion = sensor.status === 'yes';
 
       if (motion) {
@@ -39,15 +29,15 @@ export class HomeWizardMotionSensor extends HomeWizardBaseAccessory {
       }
 
       callback(null, motion);
+    }).catch(error => {
+      this.log(`Failed to retrieve motion state for: ${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 
   getLowBatteryStatus(callback) {
-    this.api.request({url: 'get-sensors'}).then(data => {
-      const thermometer = data.response.kakusensors.find(sensor => {
-        return sensor.id === this.id;
-      });
-
+    this.api.getSensors(this.id, 'kakusensors').then(thermometer => {
       const lowBattery = thermometer.lowBattery === 'yes';
 
       if (lowBattery) {
@@ -55,6 +45,10 @@ export class HomeWizardMotionSensor extends HomeWizardBaseAccessory {
       }
 
       callback(null, lowBattery);
+    }).catch(error => {
+      this.log(`Failed to retrieve battery state for: ${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 }

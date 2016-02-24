@@ -35,38 +35,30 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
     this.services.push(humiditySensorService);
   }
 
-  getValues(callback) {
-    return this.api.request({url: 'get-status'}).then(data => {
-      return data.response.thermometers.find(sensor => {
-        return sensor.id === this.id;
-      });
-    }).catch(error => {
-      this.log(`Failed to retrieve temperature/humidity for: ${this.name}`);
-      this.log(error);
-      callback(error, null);
-    });
-  }
-
   getHumidity(callback) {
-    this.getValues(callback).then(currentValues => {
+    this.api.getStatus(this.id, 'thermometers').then(currentValues => {
       this.log(`Retrieved humidity for: ${this.name} its ${currentValues.hu} %`);
       callback(null, currentValues.hu);
+    }).catch(error => {
+      this.log(`Failed to retrieve humidity for: ${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 
   getTemperature(callback) {
-    this.getValues(callback).then(currentValues => {
+    this.api.getStatus(this.id, 'thermometers').then(currentValues => {
       this.log(`Retrieved temperature for: ${this.name} its ${currentValues.te} degrees`);
       callback(null, currentValues.te);
+    }).catch(error => {
+      this.log(`Failed to retrieve temperature for: ${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 
   getLowBatteryStatus(callback) {
-    this.api.request({url: 'get-sensors'}).then(data => {
-      const thermometer = data.response.thermometers.find(sensor => {
-        return sensor.id === this.id;
-      });
-
+    this.api.getSensors(this.id, 'thermometers').then(thermometer => {
       const lowBattery = thermometer.lowBattery === 'yes';
 
       if (lowBattery) {
@@ -74,6 +66,10 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
       }
 
       callback(null, lowBattery);
+    }).catch(error => {
+      this.log(`Failed to retrieve battery state for: ${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 }

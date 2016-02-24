@@ -23,16 +23,6 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
     this.services.push(lightbulbService);
   }
 
-  // Sadly there is no individual call to get a sensor status
-  // so retrieve all and find this one
-  getCurrentValues() {
-    return this.api.request({url: 'swlist'}).then(data => {
-      return data.response.find(sw => {
-        return sw.id === this.id;
-      });
-    });
-  }
-
   setPowerState(state, callback) {
     const value = state ? 'on' : 'off';
     const url = `sw/${this.id}/${value}`;
@@ -48,12 +38,14 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
   }
 
   getPowerState(callback) {
-    this.getCurrentValues().then(sw => {
+    this.api.getStatus(this.id, 'switches').then(sw => {
       const state = sw.status === 'on' ? 1 : 0;
       this.log(`Retrieved power state for: ${this.name} - ${state}`);
       callback(null, state);
     }).catch(error => {
-      callback(error, 0);
+      this.log(`Failed to retrieve power state for: ${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 
@@ -62,14 +54,19 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
       this.log(`Set brightness for: ${this.name} to: ${value}`);
       callback();
     }).catch(error => {
+      this.log(`Failed to set brightness for: ${this.name}`);
+      this.log(error);
       callback(error);
     });
   }
 
   getBrightness(callback) {
-    this.getCurrentValues().then(sw => {
+    this.api.getStatus(this.id, 'switches').then(sw => {
+      this.log(`Retrieved brightness for: ${this.name} - ${sw.dimlevel}`);
       callback(null, sw.dimlevel);
     }).catch(error => {
+      this.log(`Failed to retrieve brightness for: ${this.name}`);
+      this.log(error);
       callback(error);
     });
   }
