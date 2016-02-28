@@ -23,49 +23,51 @@ export class AccessoriesFactory {
     }
   }
 
-  createSwitches(devices) {
-    if (devices.switches) {
-      for (const switchDevice of devices.switches) {
-        switch (switchDevice.type) {
-          case 'somfy':
-            this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
-            break;
-          case 'hue':
-            this._instantiateAccessory(HomeWizardPhilipsHue, switchDevice);
-            break;
-          default:
-            this._instantiateAccessory(HomeWizardSwitch, switchDevice);
-        }
-      }
-    }
-  }
-
   getAccessories(devices) {
     // To be sure start with empty array
     this.accessories = [];
 
-    // Create switches
-    this.createSwitches(devices);
-
-    // Create thermometers
-    if (devices.thermometers) {
-      for (const thermometer of devices.thermometers) {
-        this._instantiateAccessory(HomeWizardThermometer, thermometer);
-      }
-    }
-
-    // Create kaku sensors
-    if (devices.kakusensors) {
-      for (const kakusensor of devices.kakusensors) {
-        if (kakusensor.type === 'motion') {
-          this._instantiateAccessory(HomeWizardMotionSensor, kakusensor);
-        } else if (kakusensor.type === 'light') {
-          this._instantiateAccessory(HomeWizardLightSensor, kakusensor);
-        }
-      }
-    }
+    this._createSwitches(devices.switches);
+    this._createThermometers(devices.thermometers);
+    this._createKakuSensors(devices.kakusensors);
 
     return this.accessories;
+  }
+
+  _createSwitches(switches = []) {
+    for (const switchDevice of switches) {
+      switch (switchDevice.type) {
+        case 'somfy':
+          this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
+          break;
+        case 'hue':
+          this._instantiateAccessory(HomeWizardPhilipsHue, switchDevice);
+          break;
+        default:
+          this._instantiateAccessory(HomeWizardSwitch, switchDevice);
+      }
+    }
+  }
+
+  _createKakuSensors(kakusensors = []) {
+    for (const kakusensor of kakusensors) {
+      switch (kakusensor.type) {
+        case 'motion':
+          this._instantiateAccessory(HomeWizardMotionSensor, kakusensor);
+          break;
+        case 'light':
+          this._instantiateAccessory(HomeWizardLightSensor, kakusensor);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  _createThermometers(thermometers = []) {
+    for (const thermometer of thermometers) {
+      this._instantiateAccessory(HomeWizardThermometer, thermometer);
+    }
   }
 
   // Instantiates a new object of the given DeviceClass

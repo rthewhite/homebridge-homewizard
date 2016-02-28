@@ -59,6 +59,6 @@
     "request-promise": "^1.0.2"
   },
   "scripts": {
-    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha"
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha --recursive"
   }
 }

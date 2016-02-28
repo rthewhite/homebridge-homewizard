@@ -21,6 +21,7 @@ export class HomeWizardPlatform {
       callback(accessories);
     }).catch(error => {
       this.log('Failed to retrieve accessories from HomeWizard');
+      this.log(error);
       callback(null, error);
     });
   }
