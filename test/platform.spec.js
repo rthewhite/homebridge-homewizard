@@ -14,8 +14,14 @@ describe('Class HomeWizardPlatform', () => {
   });
 
   it('HomewizardPlatform class should have an accessories function', () => {
+    HomeWizardPlatformRewire.__Rewire__('HomeWizardApi', sinon.spy());
+    HomeWizardPlatformRewire.__Rewire__('AccessoriesFactory', sinon.spy());
+
     const platformInstance = new HomeWizardPlatform(logSpy, config);
     expect(platformInstance.accessories).to.be.a('function');
+
+    HomeWizardPlatformRewire.__ResetDependency__('HomeWizardApi');
+    HomeWizardPlatformRewire.__ResetDependency__('AccessoriesFactory');
   });
 
   it('Accessories should log and call callback with array of accessories on success', done => {
