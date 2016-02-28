@@ -5,6 +5,7 @@ import {HomeWizardMotionSensor} from './accessories/motion-sensor';
 import {HomeWizardLightSensor} from './accessories/light-sensor';
 import {HomeWizardSomfyShutter} from './accessories/somfy-shutter';
 import {HomeWizardPhilipsHue} from './accessories/philips-hue';
+import {HomeWizardRadiatorValve} from './accessories/radiator-valve';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -32,6 +33,9 @@ export class AccessoriesFactory {
             break;
           case 'hue':
             this._instantiateAccessory(HomeWizardPhilipsHue, switchDevice);
+            break;
+          case 'radiator':
+            this._instantiateAccessory(HomeWizardRadiatorValve, switchDevice);
             break;
           default:
             this._instantiateAccessory(HomeWizardSwitch, switchDevice);
