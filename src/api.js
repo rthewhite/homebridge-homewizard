@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import {request} from 'request-promise';
+import request from 'request-promise';
 import q from 'q'; //eslint-disable-line id-length
 
 export class HomeWizardApi {
