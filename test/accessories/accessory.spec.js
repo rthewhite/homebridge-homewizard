@@ -2,7 +2,7 @@ import chai from 'chai';
 import sinon from 'sinon';
 const expect = chai.expect;
 
-import {HomeWizardBaseAccessory} from './../src/accessories/accessory';
+import {HomeWizardBaseAccessory} from './../../src/accessories/accessory';
 
 const AccessoryInformation = () => {
   const setCharacteristic = () => {

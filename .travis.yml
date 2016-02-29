@@ -12,7 +12,7 @@ install:
 
 script:
   - grunt build
-  # - npm test --coverage
+  - npm test --coverage
 
 after_success:
-  # - grunt coveralls
+  - grunt coveralls

@@ -1,6 +1,6 @@
 {
   "name": "homebridge-homewizard",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "Plugin for Homebridge to communicate with HomeWizard",
   "author": "Raymond de Wit",
   "license": "ISC",
@@ -59,6 +59,6 @@
     "request-promise": "^1.0.2"
   },
   "scripts": {
-    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha"
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha --recursive"
   }
 }

@@ -65,7 +65,9 @@ module.exports = function(grunt) {
           reporter: 'spec',
           require: 'babel-register'
         },
-        src: ['test/**/*.js']
+        src: [
+          'test/**/*.spec.js'
+        ]
       }
     }
   });
@@ -88,7 +90,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean',
     'eslint',
-    'babel:build'
-    // 'mochaTest'
+    'babel:build',
+    'mochaTest'
   ]);
 };

@@ -105,6 +105,7 @@ the accessories folder. See for example switch or thermometer, next to that you 
 the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.30 - Code cleanup, enabled unit-testing
 - 0.0.29 - Performance improvements, caching and re-using api calls to HW
 - 0.0.28 - Support for Philips Hue, thanks to: ygageot!
 - 0.0.27 - Support added for Somfy shutters, thanks to: ygageot!
