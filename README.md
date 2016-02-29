@@ -24,6 +24,7 @@ If you are interested in helping out, or would like to see support for something
 - Light sensors
 - Somfy shutters (thanks to: ygageot)
 - Philips HUE (thanks to: ygageot)
+- Radiator Valves (thanks to: ygageot)
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
@@ -59,6 +60,7 @@ Options:
 - filtered(optional): Array of accessories that will be ignored by the plugin. If you have a switch in your
 HomeWizard you don't want to expose to Siri. Put the name in here and it will be ignored.
 - debug(optional): when set to true enables some extra logging regarding the http requests, usefull for debugging
+- valves: object mapping valve name to thermometer name, the valves supported by the HW don't have an temprature meter in them. By using a thermometer in the same room you can use them as a thermostat, if you don't specify a thermometer the currentTemperature reported by the valve will be the same as the set target temperature.
 
 ```
 {
@@ -75,7 +77,10 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
       "url": "http://192.168.1.155",
       "password": "<yourhomewizardpassword>",
       "filtered": ["deviceName"],
-      "debug": false
+      "debug": false,
+      "valves": {
+        "livingroom radiator": "livingroom thermometer"
+      }
    }]
 }
 ```
@@ -105,6 +110,7 @@ the accessories folder. See for example switch or thermometer, next to that you 
 the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.31 - Radiator valve support, thanks to: ygageot!
 - 0.0.30 - Code cleanup, enabled unit-testing
 - 0.0.29 - Performance improvements, caching and re-using api calls to HW
 - 0.0.28 - Support for Philips Hue, thanks to: ygageot!
