@@ -43,6 +43,7 @@ export class AccessoriesFactory {
           break;
         case 'hue':
           this._instantiateAccessory(HomeWizardPhilipsHue, switchDevice);
+          break;
         case 'radiator':
           this._instantiateAccessory(HomeWizardRadiatorValve, switchDevice);
           break;
