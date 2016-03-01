@@ -25,6 +25,7 @@ If you are interested in helping out, or would like to see support for something
 - Somfy shutters (thanks to: ygageot)
 - Philips HUE (thanks to: ygageot)
 - Radiator Valves (thanks to: ygageot)
+- Smoke sensors (thanks to: ygageot)
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
@@ -110,6 +111,7 @@ the accessories folder. See for example switch or thermometer, next to that you 
 the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.32 - Smoke sensor support, thanks to: ygageot!
 - 0.0.31 - Radiator valve support, thanks to: ygageot!
 - 0.0.30 - Code cleanup, enabled unit-testing
 - 0.0.29 - Performance improvements, caching and re-using api calls to HW

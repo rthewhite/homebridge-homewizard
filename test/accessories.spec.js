@@ -175,7 +175,28 @@ describe('Class AccessoriesFactory ', () => {
       AccessoriesFactoryRewire.__ResetDependency__('HomeWizardPhilipsHue', hueSpy);
     });
 
-    it('should instantiate HomeWizardSwitch for other types then hue and somfy', () => {
+    it('should instantiate HomeWizardRadiatorValve for type: "radiator" ', () => {
+      const valveSpy = sinon.spy();
+      AccessoriesFactoryRewire.__Rewire__('HomeWizardRadiatorValve', valveSpy);
+
+      const factory = new AccessoriesFactory(sinon.spy(), {}, {}, {});
+
+      const instantiateSpy = sinon.spy();
+      factory._instantiateAccessory = instantiateSpy;
+
+      const switches = [{
+        name: 'Radiator valve',
+        type: 'radiator'
+      }];
+
+      factory._createSwitches(switches);
+
+      expect(instantiateSpy).to.have.been.calledWith(valveSpy, switches[0]);
+
+      AccessoriesFactoryRewire.__ResetDependency__('HomeWizardRadiatorValve', valveSpy);
+    });
+
+    it('should instantiate HomeWizardSwitch as default case', () => {
       const defaultSpy = sinon.spy();
       AccessoriesFactoryRewire.__Rewire__('HomeWizardSwitch', defaultSpy);
 
@@ -263,6 +284,27 @@ describe('Class AccessoriesFactory ', () => {
       expect(instantiateSpy).to.have.been.calledWith(lightSpy, kakusensors[0]);
 
       AccessoriesFactoryRewire.__ResetDependency__('HomeWizardLightSensor', lightSpy);
+    });
+
+    it('should instantiate HomeWizardSmokeSensor for type: "smoke" ', () => {
+      const smokeSpy = sinon.spy();
+      AccessoriesFactoryRewire.__Rewire__('HomeWizardSmokeSensor', smokeSpy);
+
+      const factory = new AccessoriesFactory(sinon.spy(), {}, {}, {});
+
+      const instantiateSpy = sinon.spy();
+      factory._instantiateAccessory = instantiateSpy;
+
+      const kakusensors = [{
+        name: 'Smoke sensor 1',
+        type: 'smoke'
+      }];
+
+      factory._createKakuSensors(kakusensors);
+
+      expect(instantiateSpy).to.have.been.calledWith(smokeSpy, kakusensors[0]);
+
+      AccessoriesFactoryRewire.__ResetDependency__('HomeWizardLSmokeSensor', smokeSpy);
     });
   });
 
