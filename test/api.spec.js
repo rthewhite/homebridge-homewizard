@@ -381,8 +381,7 @@ describe('Class HomeWizardApi', () => {
       api._getAccessoryById = getAccessoryByIdSpy;
 
       // If this test fails, it will result in a timeout no idea to fix it right now
-      api._loadFromCache('get-url', 1000, 2).catch(error => {
-        console.log(error); //eslint-disable-line
+      api._loadFromCache('get-url', 1000, 2).catch(() => {
         done();
       });
     });
