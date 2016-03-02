@@ -7,6 +7,7 @@ import {HomeWizardSomfyShutter} from './accessories/somfy-shutter';
 import {HomeWizardPhilipsHue} from './accessories/philips-hue';
 import {HomeWizardRadiatorValve} from './accessories/radiator-valve';
 import {HomeWizardSmokeSensor} from './accessories/smoke-sensor';
+import {HomeWizardContactSensor} from './accessories/contact-sensor';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -65,6 +66,9 @@ export class AccessoriesFactory {
           break;
         case 'smoke':
           this._instantiateAccessory(HomeWizardSmokeSensor, kakusensor);
+          break;
+        case 'contact':
+          this._instantiateAccessory(HomeWizardContactSensor, kakusensor);
           break;
         default:
           break;
