@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import {debounce} from './../utils/debounce';
 import {HomeWizardBaseAccessory} from './accessory';
 
 export class HomeWizardSwitch extends HomeWizardBaseAccessory {
@@ -49,6 +50,7 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
     });
   }
 
+  @debounce(200)
   setBrightness(value, callback) {
     this.api.request({url: `sw/dim/${this.id}/${value}`}).then(() => {
       this.log(`Set brightness for: ${this.name} to: ${value}`);
