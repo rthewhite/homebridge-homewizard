@@ -21,10 +21,16 @@ export class HomeWizardContactSensor extends HomeWizardBaseAccessory {
         ? this.hap.Characteristic.ContactSensorState.CONTACT_NOT_DETECTED
         : this.hap.Characteristic.ContactSensorState.CONTACT_DETECTED;
 
-      if (contact === this.hap.Characteristic.ContactSensorState.CONTACT_DETECTED) {
-        this.log(`Detected contact at sensor:${this.name}`);
+      switch (contact) {
+        case this.hap.Characteristic.ContactSensorState.CONTACT_NOT_DETECTED:
+          this.log(`Non detected contact at sensor:${this.name}`);
+          break;
+        case this.hap.Characteristic.ContactSensorState.CONTACT_DETECTED:
+          this.log(`Detected contact at sensor:${this.name}`);
+          break;
+        default:
+          break;
       }
-
       callback(null, contact);
     }).catch(error => {
       this.log(`Failed to retrieve contact state for:${this.name}`);
