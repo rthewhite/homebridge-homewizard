@@ -304,7 +304,28 @@ describe('Class AccessoriesFactory ', () => {
 
       expect(instantiateSpy).to.have.been.calledWith(smokeSpy, kakusensors[0]);
 
-      AccessoriesFactoryRewire.__ResetDependency__('HomeWizardLSmokeSensor', smokeSpy);
+      AccessoriesFactoryRewire.__ResetDependency__('HomeWizardSmokeSensor', smokeSpy);
+    });
+
+    it('should instantiate HomeWizardContactSensor for type: "contact" ', () => {
+      const contactSpy = sinon.spy();
+      AccessoriesFactoryRewire.__Rewire__('HomeWizardContactSensor', contactSpy);
+
+      const factory = new AccessoriesFactory(sinon.spy(), {}, {}, {});
+
+      const instantiateSpy = sinon.spy();
+      factory._instantiateAccessory = instantiateSpy;
+
+      const kakusensors = [{
+        name: 'Contact sensor 1',
+        type: 'contact'
+      }];
+
+      factory._createKakuSensors(kakusensors);
+
+      expect(instantiateSpy).to.have.been.calledWith(contactSpy, kakusensors[0]);
+
+      AccessoriesFactoryRewire.__ResetDependency__('HomeWizardContactSensor', contactSpy);
     });
   });
 
