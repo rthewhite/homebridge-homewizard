@@ -50,7 +50,7 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
     });
   }
 
-  @debounce(200)
+  @debounce(500)
   setBrightness(value, callback) {
     this.api.request({url: `sw/dim/${this.id}/${value}`}).then(() => {
       this.log(`Set brightness for: ${this.name} to: ${value}`);

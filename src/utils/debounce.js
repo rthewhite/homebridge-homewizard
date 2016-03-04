@@ -10,6 +10,7 @@ export function debounce(wait = 500, callCallback = true) {
         const later = () => {
           timeout = null;
           initialCall = null;
+          previousCallback = null;
           Reflect.apply(descriptor.value, this, arguments);
         };
         const callNow = !timeout && !initialCall || !(Date.now() - initialCall <= wait);
