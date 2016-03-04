@@ -1,15 +1,15 @@
 import 'babel-polyfill';
 import {HomeWizardBaseAccessory} from './accessory';
 
+const THERMOMETER_UNKNOWN = -2;
+const THERMOMETER_UNAVAILABLE = -1;
+
 export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
 
   // HW support actually only Radiator valve Smartwares SHS-53000
   manufacturer = 'Smartwares';
   model = 'SHS-53000';
 
-  const THERMOMETER_UNKNOWN = -2;
-  const THERMOMETER_UNAVAILABLE = -1;
-  
   thermometer = {
     id: THERMOMETER_UNKNOWN,
     name: 'Unknown'
