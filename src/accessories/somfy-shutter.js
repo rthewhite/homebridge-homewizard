@@ -5,6 +5,11 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
 
   model = 'Somfy Shutter';
 
+  cache = {
+    value: undefined,
+    age: 0
+  };
+
   // only 3 actions for Somfy : Up, Down, Stop/MyFavorite
   // no feed back to know  CurrentPosition or PositionState
 
@@ -39,6 +44,17 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
     }
 
     const url = `sf/${this.id}/${value}`;
+
+    // if we already just send the same request, we don't repeat
+    const now = Date.now();
+    if (this.cache.value === url && now - this.cache.age < 1000) {
+      return callback();
+    }
+
+    this.cache = {
+      value: url,
+      age: now
+    };
 
     this.api.request({url}).then(() => {
       this.log(`Set Somfy for: ${this.name} to: ${value}`);
