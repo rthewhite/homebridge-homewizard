@@ -1,6 +1,9 @@
 import 'babel-polyfill';
 import {HomeWizardBaseAccessory} from './accessory';
 
+const THERMOMETER_UNKNOWN = -2;
+const THERMOMETER_UNAVAILABLE = -1;
+
 export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
 
   // HW support actually only Radiator valve Smartwares SHS-53000
@@ -8,7 +11,7 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
   model = 'SHS-53000';
 
   thermometer = {
-    id: -1,
+    id: THERMOMETER_UNKNOWN,
     name: 'Unknown'
   };
 
@@ -49,10 +52,10 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
   }
 
   _lookForThermometerInConfig() {
-    if (this.thermometer.id !== -1) {
+    if (this.thermometer.id !== THERMOMETER_UNKNOWN) {
       return;
     }
-    this.thermometer.id = 0;
+    this.thermometer.id = THERMOMETER_UNAVAILABLE;
     if (!this.config.valves) {
       this.log(`No entry valves found in config`);
       return;
@@ -80,7 +83,7 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
   }
 
   getCurrentTemperature(callback) {
-    if (this.thermometer.id > 0) {
+    if (this.thermometer.id >= 0) {
       // from the currentTemperature of the thermometer
       this.api.getStatus(this.thermometer.id, 'thermometers').then(th => {
         this.log(`Retrieved temperature for:${this.name} from:${this.thermometer.name} its:${th.te} degrees`);
