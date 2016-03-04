@@ -105,7 +105,7 @@ describe('debounce decorator', () => {
     }, 110);
   });
 
-  it('should call the callback if first or second argument is a function', () => {
+  it('should call the callback of debounced functions if first or second argument is a function', () => {
     class Test {
       @debounce(0)
       decoratorTest () {}
@@ -113,25 +113,10 @@ describe('debounce decorator', () => {
     const spy = sinon.spy();
     const testClass = new Test();
 
-    testClass.decoratorTest(spy);
-    testClass.decoratorTest(null, spy);
-    expect(spy.callCount).to.equal(2);
-  });
-
-  it('should also call the callback for debounced functions', () => {
-    class Test {
-      @debounce()
-      decoratorTest () {}
-    }
-
-    const testClass = new Test();
-    const spy = sinon.spy();
-
-    testClass.decoratorTest(spy);
-    testClass.decoratorTest(spy);
-    testClass.decoratorTest(spy);
-
-    expect(spy.callCount).to.equal(3);
+    testClass.decoratorTest(spy); // not debounced
+    testClass.decoratorTest(spy); // debounced
+    testClass.decoratorTest(null, spy); // not debounced
+    expect(spy.callCount).to.equal(1);
   });
 
   it('shouldnt call the callback when set to false', () => {
