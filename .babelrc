@@ -1,9 +1,10 @@
 {
-  "presets": ["es2015"],
+  "presets": ["es2015", "stage-1"],
   "plugins": [
     "babel-plugin-rewire",
     "transform-class-properties",
     "transform-export-extensions",
+    "transform-decorators-legacy",
     "add-module-exports"
   ]
 }

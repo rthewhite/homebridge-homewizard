@@ -25,8 +25,9 @@ module.exports = function(grunt) {
       // mochaTest is only able to use the babelrc....
       options: {
         babelrc: false,
-        presets: ['es2015'],
+        presets: ['es2015', 'stage-1'],
         plugins: [
+          'transform-decorators-legacy',
           'transform-class-properties',
           'transform-export-extensions',
           'add-module-exports'
