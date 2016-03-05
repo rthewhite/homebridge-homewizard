@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import {debounce} from './../utils/debounce';
 import {HomeWizardBaseAccessory} from './accessory';
 
 export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
@@ -26,6 +27,7 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
     this.services.push(somfyService);
   }
 
+  @debounce(500)
   setTargetPosition(level, callback) {
     // we action only for level 0, 50 or 100
     let value;
