@@ -47,8 +47,12 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
       .on('get', this.getTargetTemperature.bind(this))
       .on('set', this.setTargetTemperature.bind(this));
 
-    this.services.push(valveService);
+    valveService
+      .getCharacteristic(this.hap.Characteristic.CurrentRelativeHumidity)
+      .on('get', this.getHumidity.bind(this));
+
     this._lookForThermometerInConfig();
+    this.services.push(valveService);
   }
 
   _lookForThermometerInConfig() {
@@ -79,6 +83,17 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
     }).catch(error => {
       this.log(`Failed telist`);
       this.log(error);
+    });
+  }
+
+  getHumidity(callback) {
+    this.api.getStatus(this.thermometer.id, 'thermometers').then(th => {
+      this.log(`Retrieved humidity for:${this.name} its:${th.hu} %`);
+      callback(null, th.hu);
+    }).catch(error => {
+      this.log(`Failed to retrieve humidity for:${this.name}`);
+      this.log(error);
+      callback(error);
     });
   }
 

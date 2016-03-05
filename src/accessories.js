@@ -8,6 +8,7 @@ import {HomeWizardPhilipsHue} from './accessories/philips-hue';
 import {HomeWizardRadiatorValve} from './accessories/radiator-valve';
 import {HomeWizardSmokeSensor} from './accessories/smoke-sensor';
 import {HomeWizardContactSensor} from './accessories/contact-sensor';
+import {HomeWizardHeatLink} from './accessories/heatlink';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -33,6 +34,7 @@ export class AccessoriesFactory {
     this._createSwitches(devices.switches);
     this._createThermometers(devices.thermometers);
     this._createKakuSensors(devices.kakusensors);
+    this._createHeatLinks(devices.heatlinks);
 
     return this.accessories;
   }
@@ -79,6 +81,12 @@ export class AccessoriesFactory {
   _createThermometers(thermometers = []) {
     for (const thermometer of thermometers) {
       this._instantiateAccessory(HomeWizardThermometer, thermometer);
+    }
+  }
+
+  _createHeatLinks(heatlinks = []) {
+    for (const heatlink of heatlinks) {
+      this._instantiateAccessory(HomeWizardHeatLink, heatlink);
     }
   }
 
