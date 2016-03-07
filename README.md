@@ -27,6 +27,7 @@ If you are interested in helping out, or would like to see support for something
 - Radiator Valves (thanks to: ygageot)
 - Smoke sensors (thanks to: ygageot)
 - Contact sensors (thanks to: ygageot)
+- Heatlink (thanks to: ygageot)
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
@@ -62,7 +63,8 @@ Options:
 - filtered(optional): Array of accessories that will be ignored by the plugin. If you have a switch in your
 HomeWizard you don't want to expose to Siri. Put the name in here and it will be ignored.
 - debug(optional): when set to true enables some extra logging regarding the http requests, usefull for debugging
-- valves: object mapping valve name to thermometer name, the valves supported by the HW don't have an temprature meter in them. By using a thermometer in the same room you can use them as a thermostat, if you don't specify a thermometer the currentTemperature reported by the valve will be the same as the set target temperature.
+- valves(optional): object mapping valve name to thermometer name, the valves supported by the HW don't have an temperature meter in them. By using a thermometer in the same room you can use them as a thermostat, if you don't specify a thermometer the currentTemperature reported by the valve will be the same as the set target temperature.
+- heatlinks(optional): integer value with the duration (minutes) for your change of the target temperature with HeatLink. The default value is 60 minutes. If you choose 0 it will be an infinite duration.
 
 ```
 {
@@ -82,7 +84,8 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
       "debug": false,
       "valves": {
         "livingroom radiator": "livingroom thermometer"
-      }
+      },
+      "heatlinks" : 0
    }]
 }
 ```

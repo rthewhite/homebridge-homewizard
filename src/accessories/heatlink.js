@@ -72,9 +72,18 @@ export class HomeWizardHeatLink extends HomeWizardBaseAccessory {
   @debounce(500)
   setTargetTemperature(temp, callback) {
     const value = temp.toFixed(1);
-    // hl/<id>/settarget/<temperature>/<minutes>
-    // for the moment we will have one hour
-    const url = `hl/${this.id}/settarget/${value}/60`;
+
+    let url;
+    switch (this.config.heatlinks) {
+      case '0':
+        url = `hl/${this.id}/settarget/${value}`;
+        break;
+      case undefined:
+        url = `hl/${this.id}/settarget/${value}/60`;
+        break;
+      default:
+        url = `hl/${this.id}/settarget/${value}/${this.config.heatlinks}`;
+    }
 
     this.api.request({url}).then(() => {
       this.log(`set target temperature for:${this.name} to:${value}`);
