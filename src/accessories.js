@@ -43,6 +43,7 @@ export class AccessoriesFactory {
     for (const switchDevice of switches) {
       switch (switchDevice.type) {
         case 'somfy':
+        case 'brel':
           this._instantiateAccessory(HomeWizardSomfyShutter, switchDevice);
           break;
         case 'hue':
