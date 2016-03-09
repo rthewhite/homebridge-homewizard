@@ -75,7 +75,7 @@ export class HomeWizardHeatLink extends HomeWizardBaseAccessory {
 
     let url;
     switch (this.config.heatlinks) {
-      case '0':
+      case 0:
         url = `hl/${this.id}/settarget/${value}`;
         break;
       case undefined:
