@@ -22,7 +22,7 @@ If you are interested in helping out, or would like to see support for something
 - Thermometers
 - Motion sensors
 - Light sensors
-- Somfy shutters (thanks to: ygageot)
+- Somfy shutters and HW curtains(thanks to: ygageot)
 - Philips HUE (thanks to: ygageot)
 - Radiator Valves (thanks to: ygageot)
 - Smoke sensors (thanks to: ygageot)

@@ -44,8 +44,10 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
       default:
         return callback();
     }
+    // thanks to @jphorn who found the sw path for HW curtains
+    const dd = this.hwObject.type === 'somfy' ? 'sf' : 'sw';
 
-    const url = `sf/${this.id}/${value}`;
+    const url = `${dd}/${this.id}/${value}`;
 
     // if we already just send the same request, we don't repeat
     const now = Date.now();
