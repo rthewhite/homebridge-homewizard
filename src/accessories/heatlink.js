@@ -84,7 +84,7 @@ export class HomeWizardHeatLink extends HomeWizardBaseAccessory {
       default:
         url = `hl/${this.id}/settarget/${value}/${this.config.heatlinks}`;
     }
-
+    this.log(`HW requested with url:${url}`);
     this.api.request({url}).then(() => {
       this.log(`set target temperature for:${this.name} to:${value}`);
       callback();
