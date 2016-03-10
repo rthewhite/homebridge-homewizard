@@ -1,10 +1,9 @@
 import 'babel-polyfill';
-import {debounce} from './../utils/debounce';
 import {HomeWizardBaseAccessory} from './accessory';
 
 export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
 
-  model = 'Somfy Shutter';
+  model = 'Window covering';
 
   cache = {
     value: undefined,
@@ -16,34 +15,31 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
 
   setupServices() {
     // Setup services
-    const somfyService = new this.hap.Service.WindowCovering();
-    somfyService
+    const coveringService = new this.hap.Service.WindowCovering();
+    coveringService
       .getCharacteristic(this.hap.Characteristic.TargetPosition)
       .on('set', this.setTargetPosition.bind(this));
-    somfyService
+    coveringService
       .getCharacteristic(this.hap.Characteristic.PositionState)
       .on('get', this.getPositionState.bind(this));
 
-    this.services.push(somfyService);
+    this.services.push(coveringService);
   }
 
-  @debounce(500)
   setTargetPosition(level, callback) {
-    // we action only for level 0, 50 or 100
+    // we action only for level 0, 100 and in a middle interval
     let value;
-    switch (level) {
-      case 0:
-        value = 'down';
-        break;
-      case 50:
-        value = 'stop';
-        break;
-      case 100:
-        value = 'up';
-        break;
-      default:
-        return callback();
+    const WIDTH = 10;
+    if (level === 0) {
+      value = 'down';
+    } else if (level === 100) {
+      value = 'up';
+    } else if (level > 50 - WIDTH && level < 50 + WIDTH) {
+      value = 'stop';
+    } else {
+      return callback();
     }
+
     // thanks to @jphorn who found the sw path for HW curtains
     const dd = this.hwObject.type === 'somfy' ? 'sf' : 'sw';
 
@@ -51,7 +47,7 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
 
     // if we already just send the same request, we don't repeat
     const now = Date.now();
-    if (this.cache.value === url && now - this.cache.age < 1000) {
+    if (this.cache.value === url && now - this.cache.age < 3000) {
       return callback();
     }
 
@@ -61,10 +57,10 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
     };
 
     this.api.request({url}).then(() => {
-      this.log(`Set Somfy for: ${this.name} to: ${value}`);
+      this.log(`Set WindowCovering ${this.name} to:${value}`);
       callback();
     }).catch(error => {
-      this.log(`Failed to set Somfy ${this.name} to: ${value}`);
+      this.log(`Failed to set WindowCovering ${this.name} to:${value}`);
       this.log(error);
       callback(error);
     });
