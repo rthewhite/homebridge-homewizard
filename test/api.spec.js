@@ -71,10 +71,6 @@ describe('Class HomeWizardApi', () => {
       expect(api.request).to.be.a('function');
     });
 
-    it('should have an getSwlist function', () => {
-      expect(api.getSwlist).to.be.a('function');
-    });
-
     it('should have an getSensors function', () => {
       expect(api.getSensors).to.be.a('function');
     });
@@ -232,7 +228,7 @@ describe('Class HomeWizardApi', () => {
     });
   });
 
-  describe('getStatus, getSensors, getSwlist functions', () => {
+  describe('getStatus, getSensors functions', () => {
     let api;
     let loadFromCacheSpy;
     const config = {
@@ -256,10 +252,6 @@ describe('Class HomeWizardApi', () => {
       expect(loadFromCacheSpy).to.be.called; //eslint-disable-line
     });
 
-    it('getSwlist should call _loadFromCache', () => {
-      api.getSwlist();
-      expect(loadFromCacheSpy).to.be.called; //eslint-disable-line
-    });
   });
 
   describe('_loadFromCache function', () => {

@@ -79,10 +79,6 @@ export class HomeWizardApi {
     return this._loadFromCache('get-sensors', 900000, accessoryId, accessoryType);
   }
 
-  getSwlist(accessoryId) {
-    return this._loadFromCache('swlist', 1000, accessoryId);
-  }
-
   clearCache() {
     this.cacheTimes = {};
     this.cache = {};
