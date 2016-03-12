@@ -54,7 +54,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getPowerState(callback) {
-    this.api.getSwlist(this.id).then(sw => {
+    this.api.getStatus(this.id, 'switches').then(sw => {
       this.status = sw.status;
       this.log(`Retrieved power state for: ${this.name} - ${this.status}`);
       callback(null, this.status);
@@ -92,7 +92,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getHue(callback) {
-    this.api.getSwlist(this.id).then(sw => {
+    this.api.getStatus(this.id, 'switches').then(sw => {
       this.color = sw.color;
       this.log(`Retrieved Hue for: ${this.name} - ${this.color.hue}`);
       callback(null, this.color.hue);
@@ -102,7 +102,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getSaturation(callback) {
-    this.api.getSwlist(this.id).then(sw => {
+    this.api.getStatus(this.id, 'switches').then(sw => {
       this.color = sw.color;
       this.log(`Retrieved Saturation for: ${this.name} - ${this.color.sat}`);
       callback(null, this.color.sat);
@@ -112,7 +112,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   }
 
   getBrightness(callback) {
-    this.api.getSwlist(this.id).then(sw => {
+    this.api.getStatus(this.id, 'switches').then(sw => {
       this.color = sw.color;
       this.log(`Retrieved Brightness for: ${this.name} - ${this.color.bri}`);
       callback(null, this.color.bri);
