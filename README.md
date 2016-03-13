@@ -97,7 +97,7 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
 - How do i update to a newer version of the plugin?
 Run the following command, with sudo if needed on your platform:
 ```
-npm update Homebridge-homewizard -g
+npm update homebridge-homewizard -g
 ```
 
 - I'm having issues, now what?
