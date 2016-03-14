@@ -1,11 +1,23 @@
 import 'babel-polyfill';
+import path from 'path';
+import fs from 'fs';
 import {HomeWizardApi} from './api';
 import {AccessoriesFactory} from './accessories';
 
 export class HomeWizardPlatform {
-  constructor(log, config) {
+  constructor(log, config = {}) {
     this.config = config;
     this.log = log;
+
+    // we display package name and running version
+    const pkgname = path.join(__dirname, '/../package.json');
+    fs.readFile(pkgname, 'utf8', function(err, contents) {
+      if (err) {
+        throw err;
+      }
+      const pkg = JSON.parse(contents);
+      log(`Running : ${pkg.name} ${pkg.version}`);
+    });
 
     // Instantiate the API
     this.api = new HomeWizardApi(this.config, this.log);

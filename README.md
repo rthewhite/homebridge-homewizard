@@ -65,6 +65,10 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
 - debug(optional): when set to true enables some extra logging regarding the http requests, usefull for debugging
 - valves(optional): object mapping valve name to thermometer name, the valves supported by the HW don't have an temperature meter in them. By using a thermometer in the same room you can use them as a thermostat, if you don't specify a thermometer the currentTemperature reported by the valve will be the same as the set target temperature.
 - heatlinks(optional): integer value with the duration (minutes) for your change of the target temperature with HeatLink. The default value is 60 minutes. If you choose 0 it will be an infinite duration.
+- switchTypes(optional): by default the plugin will assume that switches are lightbulbs, which is the case for
+a lot of people. This will cause Siri to turn of all switches when you see turn of the lights. If you have
+switches that are not lights, here you can specify their type and Siri will treat them accordingly.
+Available types are: fan, outlet, switch, lightbulb.
 
 ```
 {
@@ -80,12 +84,18 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
       "platform": "HomeWizard",
       "url": "http://192.168.1.155",
       "password": "<yourhomewizardpassword>",
-      "filtered": ["deviceName"],
+      "filtered": ["accessoryName"],
       "debug": false,
       "valves": {
         "livingroom radiator": "livingroom thermometer"
       },
-      "heatlinks" : 0
+      "heatlinks" : 0,
+      "switchTypes": {
+        "accessoryName": "fan",
+        "accessoryName": "outlet",
+        "accessoryName": "switch",
+        "accessoryName": "lightbulb" // default if not specified
+      }
    }]
 }
 ```
@@ -115,6 +125,10 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.44 - Added support for different switchTypes, see example config
+- 0.0.43 - Fix for contact sensors
+- 0.0.39 - HomeWizard curtains support, thanks to ygageot!
+- 0.0.37 - Initial Heatlink support, thanks to ygageot!
 - 0.0.33 - Contact sensor support, thanks to ygageot!
 - 0.0.32 - Smoke sensor support, thanks to: ygageot!
 - 0.0.31 - Radiator valve support, thanks to: ygageot!

@@ -7,21 +7,50 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
   model = 'Switch';
 
   setupServices() {
-    // Setup services
-    const lightbulbService = new this.hap.Service.Lightbulb();
-    lightbulbService
+    let service;
+
+    // Determine serviceType, default is lightbulb for backwards compatibility
+    let switchType = 'lightbulb';
+
+    if (this.config.switchTypes && this.config.switchTypes[this.name]) {
+      switchType = this.config.switchTypes[this.name];
+    }
+
+    switch (switchType) {
+      case 'switch':
+        service = new this.hap.Service.Switch();
+        break;
+      case 'fan':
+        service = new this.hap.Service.Fan();
+        break;
+      case 'outlet':
+        service = new this.hap.Service.Outlet();
+        service.getCharacteristic(this.hap.Characteristic.OutletInUse)
+        .on('get', () => {
+          return true;
+        });
+        break;
+
+      case 'lightbulb':
+        service = new this.hap.Service.Lightbulb();
+        if (this.hwObject.type === 'dimmer') {
+          service
+            .getCharacteristic(this.hap.Characteristic.Brightness)
+            .on('set', this.setBrightness.bind(this))
+            .on('get', this.getBrightness.bind(this));
+        }
+        break;
+      default:
+        this.log(`Unknown switchType: ${switchType} for: ${this.name}`);
+        break;
+    }
+
+    service
       .getCharacteristic(this.hap.Characteristic.On)
       .on('set', this.setPowerState.bind(this))
       .on('get', this.getPowerState.bind(this));
 
-    if (this.hwObject.type === 'dimmer') {
-      lightbulbService
-        .getCharacteristic(this.hap.Characteristic.Brightness)
-        .on('set', this.setBrightness.bind(this))
-        .on('get', this.getBrightness.bind(this));
-    }
-
-    this.services.push(lightbulbService);
+    this.services.push(service);
   }
 
   setPowerState(state, callback) {
