@@ -33,13 +33,13 @@ If you are interested in helping out, or would like to see support for something
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
 
 If you have Node and NPM setup basically:
-```
+```bash
 npm install -g homebridge
 ```
 
 Once you have homebridge installed, install this plugin:
 
-```
+```bash
 npm install -g homebridge-homewizard
 ```
 
@@ -90,29 +90,29 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
 }
 ```
 
-## Know issues
-- When there are special characters being used in the password this might lead to problems connecting to the HomeWizard because of encoding issue.
+## Known issues
+- When there are special characters being used in the password this might lead to problems connecting to the HomeWizard because of an encoding issue.
 
 ## FAQ
-- How do i update to a newer version of the plugin?
+- How do I update to a newer version of the plugin?
 Run the following command, with sudo if needed on your platform:
-```
+```bash
 npm update homebridge-homewizard -g
 ```
 
 - I'm having issues, now what?
-Please make sure you are always running on the latest version of the plugin, use the above update command.
-If you still have issues, please file a issue on Github explaining the issue you are running into.
+Please make sure you are always running the latest version of the plugin by using the update command above.
+If you still have issues, please file an issue on Github explaining the issue you are running into.
 
 
 ## Developing
 All help developing this plugin is welcome. Homebridge-homewizard is written in ES6 and transpiled using Babel.
-Code styles are evaluated using Eslint to make sure all codes looks the same. If you need help to setup let me know.
+Code styles are evaluated using Eslint to make sure all code looks the same. If you need help to setup, let me know.
 
 ### Adding device support
 If you want to add support for new devices, you will need to create a new accessory class in
-the accessories folder. See for example switch or thermometer, next to that you will need to make
-the accessories factory in accessories.js aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
+the accessories folder. See for example [switch](src/accessories/switch.js) or [thermometer](src/accessories/thermometer.js). Next to that you will need to make
+the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
 - 0.0.33 - Contact sensor support, thanks to ygageot!
