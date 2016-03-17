@@ -94,7 +94,7 @@ Available types are: fan, outlet, switch, lightbulb.
         "accessoryName": "fan",
         "accessoryName": "outlet",
         "accessoryName": "switch",
-        "accessoryName": "lightbulb" // default if not specified
+        "accessoryName": "lightbulb"
       }
    }]
 }
