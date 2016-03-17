@@ -1,8 +1,6 @@
 import 'babel-polyfill';
 import request from 'request-promise';
 import q from 'q'; //eslint-disable-line id-length
-import path from 'path';
-import fs from 'fs';
 
 export class HomeWizardApi {
   queue = [];
@@ -15,16 +13,6 @@ export class HomeWizardApi {
   constructor(config, log) {
     this.config = config;
     this.log = log;
-
-    // we display package name and running version
-    const pkgname = path.join(__dirname, '/../package.json');
-    fs.readFile(pkgname, 'utf8', function(err, contents) {
-      if (err) {
-        throw err;
-      }
-      const pkg = JSON.parse(contents);
-      log(`Running : ${pkg.name} ${pkg.version}`);
-    });
 
     if (!config.url) {
       throw new Error('No url to HomeWizard found in config');
