@@ -1,6 +1,6 @@
 {
   "name": "homebridge-homewizard",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "description": "Plugin for Homebridge to communicate with HomeWizard",
   "author": "Raymond de Wit",
   "license": "ISC",
