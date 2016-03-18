@@ -125,6 +125,7 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.46 - Asun module support, thanks to ygageot!
 - 0.0.44 - Added support for different switchTypes, see example config
 - 0.0.43 - Fix for contact sensors
 - 0.0.39 - HomeWizard curtains support, thanks to ygageot!
