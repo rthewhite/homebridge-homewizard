@@ -4,15 +4,19 @@ export class HomeWizardBaseAccessory {
   services = [];
   manufacturer = 'HomeWizard';
 
-  constructor(log, config, api, homebridge, hwObject) {
-    this.log = log;
-    this.config = config;
-    this.api = api;
-    this.homebridge = homebridge;
-    this.hap = homebridge.hap;
-    this.id = hwObject.id;
-    this.name = hwObject.name;
-    this.hwObject = hwObject;
+  constructor(options) {
+    this.log = options.log;
+    this.config = options.config;
+    this.api = options.api;
+    this.homebridge = options.homebridge;
+    this.hap = options.homebridge.hap;
+    this.id = options.hwObject.id;
+    this.name = options.hwObject.name;
+    this.eventManager = options.eventManager;
+    this.hwObject = options.hwObject;
+
+    // Register with eventListener
+    this.eventManager.registerEventlistener(this);
   }
 
   _setupInformationService() {

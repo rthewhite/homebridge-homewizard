@@ -69,6 +69,8 @@ HomeWizard you don't want to expose to Siri. Put the name in here and it will be
 a lot of people. This will cause Siri to turn of all switches when you see turn of the lights. If you have
 switches that are not lights, here you can specify their type and Siri will treat them accordingly.
 Available types are: fan, outlet, switch, lightbulb.
+- createPresetSwitches (optional): create switches for the HomeWizard presets. Default is true.
+- presetNames (optional): names used to create the preset switches. If not set in the config the default names will be used like in the example config.
 
 ```
 {
@@ -95,6 +97,13 @@ Available types are: fan, outlet, switch, lightbulb.
         "accessoryName": "outlet",
         "accessoryName": "switch",
         "accessoryName": "lightbulb"
+      },
+      createPresetSwitches: true,
+      presetNames: {
+        "home": "Home Preset",
+        "away": "Away Preset",
+        "sleep": "Sleep Preset",
+        "holiday": "Holiday Preset"
       }
    }]
 }
@@ -125,6 +134,7 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.47 - HomeWizard preset support
 - 0.0.46 - Asun module support, thanks to ygageot!
 - 0.0.44 - Added support for different switchTypes, see example config
 - 0.0.43 - Fix for contact sensors
