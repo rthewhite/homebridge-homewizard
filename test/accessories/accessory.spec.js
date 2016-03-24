@@ -33,9 +33,20 @@ const hwObject = {
   name: 'myObject'
 };
 
+const eventManager = {
+  registerEventlistener() {}
+};
+
 describe('Class HomeWizardBaseAccessory', () => {
   it('Accessory base class should set properties on the class', () => {
-    const accessory = new HomeWizardBaseAccessory(log, config, api, homebridge, hwObject);
+    const accessory = new HomeWizardBaseAccessory({
+      log,
+      config,
+      api,
+      homebridge,
+      eventManager,
+      hwObject
+    });
 
     expect(accessory.log).to.equal(log);
     expect(accessory.config).to.equal(config);
@@ -48,12 +59,12 @@ describe('Class HomeWizardBaseAccessory', () => {
   });
 
   it('Accessory base class should expose a getServices function', () => {
-    const accessory = new HomeWizardBaseAccessory(log, config, api, homebridge, hwObject);
+    const accessory = new HomeWizardBaseAccessory({log, config, api, homebridge, eventManager, hwObject});
     expect(accessory.getServices).to.be.a('function');
   });
 
   it('getServices should return an array with informationService in it', () => {
-    const accessory = new HomeWizardBaseAccessory(log, config, api, homebridge, hwObject);
+    const accessory = new HomeWizardBaseAccessory({log, config, api, homebridge, eventManager, hwObject});
     const services = accessory.getServices();
 
     expect(services).to.be.a('array');
@@ -61,7 +72,7 @@ describe('Class HomeWizardBaseAccessory', () => {
   });
 
   it('If accessory has setupServices it should be called when getServices is called', () => {
-    const accessory = new HomeWizardBaseAccessory(log, config, api, homebridge, hwObject);
+    const accessory = new HomeWizardBaseAccessory({log, config, api, homebridge, eventManager, hwObject});
     accessory.setupServices = sinon.spy();
     accessory.getServices();
     expect(accessory.setupServices.called).to.equal(true);

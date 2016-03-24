@@ -98,8 +98,8 @@ Available types are: fan, outlet, switch, lightbulb.
         "accessoryName": "switch",
         "accessoryName": "lightbulb"
       },
-      createPresetSwitches: true,
-      presetNames: {
+      "createPresetSwitches": true,
+      "presetNames": {
         "home": "Home Preset",
         "away": "Away Preset",
         "sleep": "Sleep Preset",
