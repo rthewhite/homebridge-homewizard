@@ -29,6 +29,7 @@
         "away": "Away Preset",
         "sleep": "Sleep Preset",
         "holiday": "Holiday Preset"
-      }
+      },
+      "createSceneSwitches": true
    }]
 }
