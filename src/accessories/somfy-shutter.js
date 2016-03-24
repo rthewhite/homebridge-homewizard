@@ -5,17 +5,25 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
 
   model = 'Window covering';
 
+  // estimation of the duration to close or open completely the covering
+  // used to estimate the positionState
+  OPERATING_TIME = 20000;
+  // at startup we think it is stopped and open
+  targetPosition = 100;
   cache = {
-    value: undefined,
-    age: 0
+    value: 'stop',
+    age: Date.now()
   };
 
   // only 3 actions for Somfy : Up, Down, Stop/MyFavorite
-  // no feed back to know  CurrentPosition or PositionState
+  // no feed back to know exactly CurrentPosition and PositionState
 
   setupServices() {
     // Setup services
     const coveringService = new this.hap.Service.WindowCovering();
+    coveringService
+    .getCharacteristic(this.hap.Characteristic.CurrentPosition)
+    .on('get', this.getCurrentPosition.bind(this));
     coveringService
       .getCharacteristic(this.hap.Characteristic.TargetPosition)
       .on('set', this.setTargetPosition.bind(this));
@@ -26,7 +34,23 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
     this.services.push(coveringService);
   }
 
+  getCurrentPosition(callback) {
+    let currentPosition = this.targetPosition;
+    const delay = Date.now() - this.cache.age;
+    if (delay < this.OPERATING_TIME) {
+      const ratio = (Date.now() - this.cache.age) / this.OPERATING_TIME;
+      if (this.cache.value === 'up') {
+        currentPosition = 100 * ratio;
+      } else if (this.cache.value === 'down') {
+        currentPosition = 100 * (1 - ratio);
+      }
+    }
+    this.log(`CurrentPosition WindowCovering ${this.name} is:${currentPosition}`);
+    callback(null, currentPosition);
+  }
+
   setTargetPosition(level, callback) {
+    this.targetPosition = level;
     // we action only for level 0, 100 and in a middle interval
     let value;
     const WIDTH = 10;
@@ -44,14 +68,12 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
 
     // if we already just send the same request, we don't repeat
     const now = Date.now();
-    if (this.cache.value === url && now - this.cache.age < 3000) {
+    if (this.cache.value === value && now - this.cache.age < 3000) {
       return callback();
     }
 
-    this.cache = {
-      value: url,
-      age: now
-    };
+    this.cache.value = value;
+    this.cache.age = now;
 
     this.api.request({url}).then(() => {
       this.log(`Set WindowCovering ${this.name} to:${value}`);
@@ -64,6 +86,16 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
   }
 
   getPositionState(callback) {
-    callback(null, this.hap.Characteristic.PositionState.STOPPED);
+    let positionState = this.hap.Characteristic.PositionState.STOPPED;
+    const delay = Date.now() - this.cache.age;
+    if (delay < this.OPERATING_TIME) {
+      if (this.cache.value === 'up') {
+        positionState = this.hap.Characteristic.PositionState.INCREASING;
+      } else if (this.cache.value === 'down') {
+        positionState = this.hap.Characteristic.PositionState.DECREASING;
+      }
+    }
+    this.log(`PositionState WindowCovering ${this.name} is:${positionState}`);
+    callback(null, positionState);
   }
 }
