@@ -22,7 +22,7 @@ If you are interested in helping out, or would like to see support for something
 - Thermometers
 - Motion sensors
 - Light sensors
-- Somfy shutters and HW curtains(thanks to: ygageot)
+- Window Covering (Somfy, HomeWizard, ASUN) (thanks to: ygageot)
 - Philips HUE (thanks to: ygageot)
 - Radiator Valves (thanks to: ygageot)
 - Smoke sensors (thanks to: ygageot)
@@ -134,7 +134,8 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
-- 0.0.45 - HomeWizard preset support
+- 0.0.47 - HomeWizard preset support
+- 0.0.46 - Asun module support, thanks to ygageot!
 - 0.0.44 - Added support for different switchTypes, see example config
 - 0.0.43 - Fix for contact sensors
 - 0.0.39 - HomeWizard curtains support, thanks to ygageot!
