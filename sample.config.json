@@ -11,7 +11,24 @@
       "platform": "HomeWizard",
       "url": "http://192.168.1.155",
       "password": "<yourhomewizardpassword>",
-      "filtered": ["deviceName"],
-      "debug": false
+      "filtered": ["accessoryName"],
+      "debug": false,
+      "valves": {
+        "livingroom radiator": "livingroom thermometer"
+      },
+      "heatlinks" : 0,
+      "switchTypes": {
+        "accessoryName": "fan",
+        "accessoryName": "outlet",
+        "accessoryName": "switch",
+        "accessoryName": "lightbulb"
+      },
+      "createPresetSwitches": true,
+      "presetNames": {
+        "home": "Home Preset",
+        "away": "Away Preset",
+        "sleep": "Sleep Preset",
+        "holiday": "Holiday Preset"
+      }
    }]
 }

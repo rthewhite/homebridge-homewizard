@@ -9,16 +9,18 @@ import {HomeWizardRadiatorValve} from './accessories/radiator-valve';
 import {HomeWizardSmokeSensor} from './accessories/smoke-sensor';
 import {HomeWizardContactSensor} from './accessories/contact-sensor';
 import {HomeWizardHeatLink} from './accessories/heatlink';
+import {HomeWizardPreset} from './accessories/preset';
 
 export class AccessoriesFactory {
   accessories = [];
   filtered = [];
 
-  constructor(log, config, api, homebridge) {
+  constructor(log, config, api, homebridge, eventManager) {
     this.log = log;
     this.config = config;
     this.api = api;
     this.homebridge = homebridge;
+    this.eventManager = eventManager;
 
     if (config && config.filtered) {
       for (const filter of config.filtered) {
@@ -30,6 +32,10 @@ export class AccessoriesFactory {
   getAccessories(devices) {
     // To be sure start with empty array
     this.accessories = [];
+
+    if (this.config.createPresetSwitches !== false) {
+      this._createPresets(this.config.presetNames);
+    }
 
     this._createSwitches(devices.switches);
     this._createThermometers(devices.thermometers);
@@ -91,10 +97,39 @@ export class AccessoriesFactory {
     }
   }
 
+  _createPresets(presetNames = {}) {
+    this._instantiateAccessory(HomeWizardPreset, {
+      name: presetNames.home || 'Home Preset',
+      id: 0
+    });
+
+    this._instantiateAccessory(HomeWizardPreset, {
+      name: presetNames.away || 'Away Preset',
+      id: 1
+    });
+
+    this._instantiateAccessory(HomeWizardPreset, {
+      name: presetNames.sleep || 'Sleep Preset',
+      id: 2
+    });
+
+    this._instantiateAccessory(HomeWizardPreset, {
+      name: presetNames.holiday || 'Holiday Preset',
+      id: 3
+    });
+  }
+
   // Instantiates a new object of the given DeviceClass
   _instantiateAccessory(DeviceClass, deviceInfo) {
     if (this.filtered.indexOf(deviceInfo.name.trim()) === -1) {
-      const accessory = new DeviceClass(this.log, this.config, this.api, this.homebridge, deviceInfo);
+      const accessory = new DeviceClass({
+        log: this.log,
+        config: this.config,
+        api: this.api,
+        homebridge: this.homebridge,
+        eventManager: this.eventManager,
+        hwObject: deviceInfo
+      });
       this.accessories.push(accessory);
     } else {
       this.log(`Skipping: ${deviceInfo.name} because its filtered in the config`);

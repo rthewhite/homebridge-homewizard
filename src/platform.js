@@ -3,6 +3,8 @@ import path from 'path';
 import fs from 'fs';
 import {HomeWizardApi} from './api';
 import {AccessoriesFactory} from './accessories';
+import {Logger} from './logger';
+import {EventManager} from './events';
 
 export class HomeWizardPlatform {
   constructor(log, config = {}) {
@@ -19,11 +21,11 @@ export class HomeWizardPlatform {
       log(`Running : ${pkg.name} ${pkg.version}`);
     });
 
-    // Instantiate the API
     this.api = new HomeWizardApi(this.config, this.log);
+    this.logger = new Logger(this.log);
+    this.eventManager = new EventManager(this.logger);
+    this.factory = new AccessoriesFactory(this.log, this.config, this.api, GLOBAL.homebridge, this.eventManager);
 
-    // Instantiate the accessories factory
-    this.factory = new AccessoriesFactory(this.log, this.config, this.api, GLOBAL.homebridge);
   }
 
   accessories(callback) {

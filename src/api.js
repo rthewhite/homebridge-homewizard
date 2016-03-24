@@ -59,6 +59,10 @@ export class HomeWizardApi {
     });
   }
 
+  getActivePreset() {
+    return this._loadFromCache('get-status', 1000, 0, 'preset');
+  }
+
   getStatus(accessoryId, accessoryType) {
     return this._loadFromCache('get-status', 1000, accessoryId, accessoryType);
   }
@@ -83,7 +87,9 @@ export class HomeWizardApi {
     return this.cache[url].then(data => {
       let accessory;
 
-      if (accessoryType) {
+      if (accessoryType === 'preset') {
+        return data.response.preset;
+      } else if (accessoryType) {
         accessory = this._getAccessoryByIdAndType(accessoryId, accessoryType, data.response);
       } else {
         accessory = this._getAccessoryById(accessoryId, data.response);
