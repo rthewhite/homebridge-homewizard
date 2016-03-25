@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import path from 'path';
 import fs from 'fs';
+import q from 'q'; //eslint-disable-line
 import {HomeWizardApi} from './api';
 import {AccessoriesFactory} from './accessories';
 import {Logger} from './logger';
@@ -25,13 +26,15 @@ export class HomeWizardPlatform {
     this.logger = new Logger(this.log);
     this.eventManager = new EventManager(this.logger);
     this.factory = new AccessoriesFactory(this.log, this.config, this.api, GLOBAL.homebridge, this.eventManager);
-
   }
 
   accessories(callback) {
-    this.api.request({url: 'get-sensors'}).then(data => {
+    q.all([
+      this.api.request({url: 'get-sensors'}),
+      this.api.request({url: 'gplist'})
+    ]).then(data => {
       this.log('Successfully retrieved accessories from HomeWizard');
-      const accessories = this.factory.getAccessories(data.response);
+      const accessories = this.factory.getAccessories(data[0].response, data[1].response);
       callback(accessories);
     }).catch(error => {
       this.log('Failed to retrieve accessories from HomeWizard');

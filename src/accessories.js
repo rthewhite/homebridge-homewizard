@@ -10,6 +10,7 @@ import {HomeWizardSmokeSensor} from './accessories/smoke-sensor';
 import {HomeWizardContactSensor} from './accessories/contact-sensor';
 import {HomeWizardHeatLink} from './accessories/heatlink';
 import {HomeWizardPreset} from './accessories/preset';
+import {HomeWizardScene} from './accessories/scene';
 
 export class AccessoriesFactory {
   accessories = [];
@@ -29,12 +30,16 @@ export class AccessoriesFactory {
     }
   }
 
-  getAccessories(devices) {
+  getAccessories(devices, scenes) {
     // To be sure start with empty array
     this.accessories = [];
 
     if (this.config.createPresetSwitches !== false) {
       this._createPresets(this.config.presetNames);
+    }
+
+    if (this.config.createSceneSwitches !== false) {
+      this._createScenes(scenes);
     }
 
     this._createSwitches(devices.switches);
@@ -117,6 +122,12 @@ export class AccessoriesFactory {
     this._instantiateAccessory(HomeWizardPreset, {
       name: presetNames.holiday || 'Holiday Preset',
       id: 3
+    });
+  }
+
+  _createScenes(scenes) {
+    scenes.forEach(scene => {
+      this._instantiateAccessory(HomeWizardScene, scene);
     });
   }
 

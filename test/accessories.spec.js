@@ -11,11 +11,12 @@ describe('Class AccessoriesFactory ', () => {
 
   describe('constructor', () => {
     it('should set: log, config, api, homebridge properties', () => {
-      const accessories = new AccessoriesFactory('log', 'config', 'api', 'homebridge');
+      const accessories = new AccessoriesFactory('log', 'config', 'api', 'homebridge', 'eventManager');
       expect(accessories.log).to.equal('log');
       expect(accessories.config).to.equal('config');
       expect(accessories.api).to.equal('api');
       expect(accessories.homebridge).to.equal('homebridge');
+      expect(accessories.eventManager).to.equal('eventManager');
     });
 
     it('should set filtered accessories', () => {
