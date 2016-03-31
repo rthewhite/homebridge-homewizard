@@ -64,16 +64,23 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
       return callback();
     }
 
-    const url = `sw/${this.id}/${value}`;
-
     // if we already just send the same request, we don't repeat
     const now = Date.now();
     if (this.cache.value === value && now - this.cache.age < 3000) {
       return callback();
     }
 
-    this.cache.value = value;
-    this.cache.age = now;
+    let url = `sw/${this.id}/${value}`;
+
+    // for ASUN devices without stop button, we rebroadcast the last command up or down
+    if (this.hwObject.type === 'asun') {
+      if (value === 'stop') {
+        if (this.cache.value === 'stop') {
+          return callback();
+        }
+        url = `sw/${this.id}/${this.cache.value}`;
+      }
+    }
 
     this.api.request({url}).then(() => {
       this.log(`Set WindowCovering ${this.name} to:${value}`);
@@ -83,6 +90,9 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
       this.log(error);
       callback(error);
     });
+
+    this.cache.value = value;
+    this.cache.age = now;
   }
 
   getPositionState(callback) {

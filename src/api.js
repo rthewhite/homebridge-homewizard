@@ -5,7 +5,7 @@ import q from 'q'; //eslint-disable-line id-length
 export class HomeWizardApi {
   queue = [];
   running = [];
-  limit = 3;
+  limit = 1;
 
   cache = {}
   cacheTimes = {}
