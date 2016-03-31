@@ -10,6 +10,11 @@
 [downloads-image]: https://img.shields.io/npm/dm/homebridge-homewizard.svg?style=flat
 [downloads-url]: https://npmjs.org/package/homebridge-homewizard
 
+## Notice
+I have switched platform and no longer have a HomeWizard in my possession. I believe the plugin is currently quite feature complete and works correctly so feel free to keep using it and off course pull requests are always welcome! The big feature that's missing is probably the pushing of changes to Homekit, when for example a motion sensor changes state this is not being pushed to Homekit.
+
+If you have any issues i will try to help you out the best way i can. 
+
 # homebridge-homewizard
 This plugin will add platform support for HomeWizard to Homebridge.
 And therefore give you the ability to control all devices and sensors attached to your HomeWizard with Siri!
@@ -28,6 +33,8 @@ If you are interested in helping out, or would like to see support for something
 - Smoke sensors (thanks to: ygageot)
 - Contact sensors (thanks to: ygageot)
 - Heatlink (thanks to: ygageot)
+- HomeWizard scenes
+- HomeWizard presets
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
