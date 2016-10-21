@@ -25,7 +25,7 @@ export class HomeWizardPlatform {
     this.api = new HomeWizardApi(this.config, this.log);
     this.logger = new Logger(this.log);
     this.eventManager = new EventManager(this.logger);
-    this.factory = new AccessoriesFactory(this.log, this.config, this.api, GLOBAL.homebridge, this.eventManager);
+    this.factory = new AccessoriesFactory(this.log, this.config, this.api, global.homebridge, this.eventManager);
   }
 
   accessories(callback) {
