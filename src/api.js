@@ -54,6 +54,10 @@ export class HomeWizardApi {
       });
 
       return requestPromise.then(response => {
+        if (this.config && this.config.debug) {
+          this.log(response);
+        }
+
         return response.body;
       });
     });
