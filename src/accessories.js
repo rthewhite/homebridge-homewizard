@@ -126,9 +126,11 @@ export class AccessoriesFactory {
   }
 
   _createScenes(scenes) {
-    scenes.forEach(scene => {
-      this._instantiateAccessory(HomeWizardScene, scene);
-    });
+    if (scenes) {
+      scenes.forEach(scene => {
+        this._instantiateAccessory(HomeWizardScene, scene);
+      });
+    }
   }
 
   // Instantiates a new object of the given DeviceClass
