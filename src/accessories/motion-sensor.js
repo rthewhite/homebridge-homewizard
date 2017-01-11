@@ -8,9 +8,8 @@ export class HomeWizardMotionSensor extends HomeWizardBaseAccessory {
   setupServices() {
     // Setup services
     const motionSensorService = new this.hap.Service.MotionSensor();
-    motionSensorService
-      .getCharacteristic(this.hap.Characteristic.MotionDetected)
-      .on('get', this.getMotionState.bind(this));
+    this.motionDetected = motionSensorService.getCharacteristic(this.hap.Characteristic.MotionDetected);
+    this.motionDetected.on('get', this.getMotionState.bind(this));
 
       // Add battery status to services
     motionSensorService
@@ -22,12 +21,13 @@ export class HomeWizardMotionSensor extends HomeWizardBaseAccessory {
 
   getMotionState(callback) {
     this.api.getStatus(this.id, 'kakusensors').then(sensor => {
-      const motion = sensor.status === 'yes';
+      const motion = this.recentDetection(sensor);
 
       if (motion) {
-        this.log(`Detected motion at sensor: ${this.name}`);
+        this.log(`Retrieved detected motion for: ${this.name}`);
       }
 
+      this.motionDetected.setValue(motion);
       callback(null, motion);
     }).catch(error => {
       this.log(`Failed to retrieve motion state for: ${this.name}`);
@@ -41,7 +41,7 @@ export class HomeWizardMotionSensor extends HomeWizardBaseAccessory {
       const lowBattery = thermometer.lowBattery === 'yes';
 
       if (lowBattery) {
-        this.log(`Low battery level for motion sensor: ${this.name}`);
+        this.log(`Retrieved low battery level for: ${this.name}`);
       }
 
       callback(null, lowBattery);

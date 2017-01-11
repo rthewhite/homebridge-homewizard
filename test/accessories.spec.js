@@ -10,7 +10,7 @@ import {AccessoriesFactory, __RewireAPI__ as AccessoriesFactoryRewire} from './.
 describe('Class AccessoriesFactory ', () => {
 
   describe('constructor', () => {
-    it('should set: log, config, api, homebridge properties', () => {
+    it('should set: log, config, api, homebridge,eventManager properties', () => {
       const accessories = new AccessoriesFactory('log', 'config', 'api', 'homebridge', 'eventManager');
       expect(accessories.log).to.equal('log');
       expect(accessories.config).to.equal('config');
@@ -94,15 +94,16 @@ describe('Class AccessoriesFactory ', () => {
       const config = 'config';
       const api = 'api';
       const homebridge = 'homebridge';
+      const eventManager = 'eventManager';
 
       const accessoryInfo = {name: 'foobar'};
       const DeviceClass = sinon.spy();
 
-      const accessories = new AccessoriesFactory(log, config, api, homebridge);
+      const accessories = new AccessoriesFactory(log, config, api, homebridge, eventManager);
 
       accessories._instantiateAccessory(DeviceClass, accessoryInfo);
 
-      expect(DeviceClass).to.have.been.calledWith(log, config, api, homebridge, accessoryInfo);
+      expect(DeviceClass).to.have.been.calledWith(log, config, api, homebridge, eventManager, accessoryInfo);
     });
 
     it('should filter out filtered accesories', () => {
@@ -328,6 +329,27 @@ describe('Class AccessoriesFactory ', () => {
 
       AccessoriesFactoryRewire.__ResetDependency__('HomeWizardContactSensor', contactSpy);
     });
+
+    it('should instantiate HomeWizardDoorbell for type: "doorbell" ', () => {
+      const contactSpy = sinon.spy();
+      AccessoriesFactoryRewire.__Rewire__('HomeWizardDoorbell', contactSpy);
+
+      const factory = new AccessoriesFactory(sinon.spy(), {}, {}, {});
+
+      const instantiateSpy = sinon.spy();
+      factory._instantiateAccessory = instantiateSpy;
+
+      const kakusensors = [{
+        name: 'Doorbell 1',
+        type: 'doorbell'
+        }];
+
+      factory._createKakuSensors(kakusensors);
+              
+      expect(instantiateSpy).to.have.been.calledWith(contactSpy, kakusensors[0]);
+              
+      AccessoriesFactoryRewire.__ResetDependency__('HomeWizardDoorbell', contactSpy);
+   });
   });
 
 

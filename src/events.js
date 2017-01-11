@@ -17,4 +17,13 @@ export class EventManager {
       }
     });
   }
+
+  refreshAllGetters() {
+    this.listeners.forEach(listener => {
+      if (listener.refreshAllGetters && typeof listener.refreshAllGetters === 'function') {
+        listener.refreshAllGetters();
+      }
+    });
+  }
+
 }

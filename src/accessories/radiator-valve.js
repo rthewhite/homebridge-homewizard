@@ -91,7 +91,7 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
       this.log(`Retrieved humidity for:${this.name} its:${th.hu} %`);
       callback(null, th.hu);
     }).catch(error => {
-      this.log(`Failed to retrieve humidity for:${this.name}`);
+      this.log(`Failed to retrieve humidity for: ${this.name}`);
       this.log(error);
       callback(error);
     });
@@ -101,17 +101,17 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
     if (this.thermometer.id >= 0) {
       // from the currentTemperature of the thermometer
       this.api.getStatus(this.thermometer.id, 'thermometers').then(th => {
-        this.log(`Retrieved temperature for:${this.name} from:${this.thermometer.name} its:${th.te} degrees`);
+        this.log(`Retrieved temperature for: ${this.name} from:${this.thermometer.name} its:${th.te} degrees`);
         callback(null, th.te);
       }).catch(error => {
-        this.log(`Failed to retrieve temperature for:${this.name} from:${this.thermometer.name}`);
+        this.log(`Failed to retrieve temperature for: ${this.name} from:${this.thermometer.name}`);
         this.log(error);
         callback(error);
       });
     } else {
       // equals the target value of the valve
       this.api.getStatus(this.id, 'switches').then(sw => {
-        this.log(`Retrieved default temperature from target for:${this.name} its:${sw.tte} degrees`);
+        this.log(`Retrieved default temperature from target for: ${this.name} its:${sw.tte} degrees`);
         callback(null, sw.tte);
       }).catch(error => {
         this.log(`Failed to retrieve target temperature for:${this.name} `);
@@ -123,7 +123,7 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
 
   getTargetTemperature(callback) {
     this.api.getStatus(this.id, 'switches').then(sw => {
-      this.log(`Retrieved target temperature for:${this.name} its:${sw.tte}`);
+      this.log(`Retrieved target temperature for: ${this.name} its:${sw.tte}`);
       callback(null, sw.tte);
     }).catch(error => {
       this.log(`Failed to retrieve target temperature for:${this.name}`);

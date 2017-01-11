@@ -8,6 +8,7 @@ import {HomeWizardPhilipsHue} from './accessories/philips-hue';
 import {HomeWizardRadiatorValve} from './accessories/radiator-valve';
 import {HomeWizardSmokeSensor} from './accessories/smoke-sensor';
 import {HomeWizardContactSensor} from './accessories/contact-sensor';
+import {HomeWizardDoorbell} from './accessories/doorbell';
 import {HomeWizardHeatLink} from './accessories/heatlink';
 import {HomeWizardPreset} from './accessories/preset';
 import {HomeWizardScene} from './accessories/scene';
@@ -34,19 +35,20 @@ export class AccessoriesFactory {
     // To be sure start with empty array
     this.accessories = [];
 
-    if (this.config.createPresetSwitches !== false) {
+    if (this.config && this.config.createPresetSwitches !== false) {
       this._createPresets(this.config.presetNames);
     }
 
-    if (this.config.createSceneSwitches !== false) {
+    if (this.config && this.config.createSceneSwitches !== false) {
       this._createScenes(scenes);
     }
 
-    this._createSwitches(devices.switches);
-    this._createThermometers(devices.thermometers);
-    this._createKakuSensors(devices.kakusensors);
-    this._createHeatLinks(devices.heatlinks);
-
+    if(devices) {
+      this._createSwitches(devices.switches);
+      this._createThermometers(devices.thermometers);
+      this._createKakuSensors(devices.kakusensors);
+      this._createHeatLinks(devices.heatlinks);
+    }
     return this.accessories;
   }
 
@@ -84,6 +86,9 @@ export class AccessoriesFactory {
           break;
         case 'contact':
           this._instantiateAccessory(HomeWizardContactSensor, kakusensor);
+          break;
+        case 'doorbell':
+          this._instantiateAccessory(HomeWizardDoorbell, kakusensor);
           break;
         default:
           break;

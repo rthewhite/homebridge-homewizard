@@ -62,7 +62,7 @@ export class HomeWizardThermometer extends HomeWizardBaseAccessory {
       const lowBattery = thermometer.lowBattery === 'yes';
 
       if (lowBattery) {
-        this.log(`Low battery level for thermometer: ${this.name}`);
+        this.log(`Retrieved low battery level for: ${this.name}`);
       }
 
       callback(null, lowBattery);

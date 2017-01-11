@@ -22,6 +22,6 @@ describe('Plugin function', () => {
   it('platform should expose homebridge globally', () => {
     const homebridge = {registerPlatform: () => {}};
     plugin(homebridge);
-    expect(GLOBAL.homebridge).to.equal(homebridge);
+    expect(global.homebridge).to.equal(homebridge);
   });
 });
