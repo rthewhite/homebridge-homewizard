@@ -4,13 +4,12 @@ import {HomeWizardBaseAccessory} from './accessory';
 export class HomeWizardLightSensor extends HomeWizardBaseAccessory {
 
   model = 'Light sensor';
-
+  currentAmbientLightLevel;
   setupServices() {
     // Setup services
     const lightSensorService = new this.hap.Service.LightSensor();
-    lightSensorService
-      .getCharacteristic(this.hap.Characteristic.CurrentAmbientLightLevel)
-      .on('get', this.getCurrentAmbientLightLevel.bind(this));
+    this.currentAmbientLightLevel = lightSensorService.getCharacteristic(this.hap.Characteristic.CurrentAmbientLightLevel);
+    this.currentAmbientLightLevel.on('get', this.getCurrentAmbientLightLevel.bind(this));
 
       // Add battery status to services
     lightSensorService
@@ -25,8 +24,9 @@ export class HomeWizardLightSensor extends HomeWizardBaseAccessory {
       // HomeWizard only sends back yes or no
       // Means day or night? Translating this to ambient light level for Homekit
       const lightLevel = sensor.status === 'yes' ? 100 : 0.01;
-      this.log(`Got ambient light level for: ${this.name} - ${lightLevel}`);
+      this.log(`Retrieved ambient light level for: ${this.name} - ${lightLevel}`);
 
+      this.currentAmbientLightLevel.setValue(lightLevel);
       callback(null, lightLevel);
     }).catch(error => {
       this.log(`Failed to retrieve ambient light level for: ${this.name}`);

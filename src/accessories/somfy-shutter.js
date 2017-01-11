@@ -45,7 +45,7 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
         currentPosition = 100 * (1 - ratio);
       }
     }
-    this.log(`CurrentPosition WindowCovering ${this.name} is:${currentPosition}`);
+    this.log(`Retrieved currentPosition WindowCovering for: ${this.name} is:${currentPosition}`);
     callback(null, currentPosition);
   }
 
@@ -105,7 +105,7 @@ export class HomeWizardSomfyShutter extends HomeWizardBaseAccessory {
         positionState = this.hap.Characteristic.PositionState.DECREASING;
       }
     }
-    this.log(`PositionState WindowCovering ${this.name} is:${positionState}`);
+    this.log(`Retrieved positionState WindowCovering for: ${this.name} is:${positionState}`);
     callback(null, positionState);
   }
 }

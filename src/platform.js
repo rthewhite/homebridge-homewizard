@@ -6,6 +6,7 @@ import {HomeWizardApi} from './api';
 import {AccessoriesFactory} from './accessories';
 import {Logger} from './logger';
 import {EventManager} from './events';
+import {NotificationListener} from './notificationListener';
 
 export class HomeWizardPlatform {
   constructor(log, config = {}) {
@@ -26,6 +27,7 @@ export class HomeWizardPlatform {
     this.logger = new Logger(this.log);
     this.eventManager = new EventManager(this.logger);
     this.factory = new AccessoriesFactory(this.log, this.config, this.api, global.homebridge, this.eventManager);
+    this.listener = new NotificationListener(this.log, this.config, this.api, this.eventManager);
   }
 
   accessories(callback) {

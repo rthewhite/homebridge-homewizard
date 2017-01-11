@@ -86,6 +86,7 @@ export class AccessoriesFactory {
           break;
         case 'contact':
           this._instantiateAccessory(HomeWizardContactSensor, kakusensor);
+          break;
         case 'doorbell':
           this._instantiateAccessory(HomeWizardDoorbell, kakusensor);
           break;

@@ -8,21 +8,22 @@ export class HomeWizardDoorbell extends HomeWizardBaseAccessory {
   setupServices() {
     // Setup services
     const doorbellService = new this.hap.Service.Doorbell();
-    doorbellService
-      .getCharacteristic(this.hap.Characteristic.ProgrammableSwitchEvent)
-      .on('get', this.getSwitchEvent.bind(this));
+    this.programmableSwitchEvent = doorbellService.getCharacteristic(this.hap.Characteristic.ProgrammableSwitchEvent);
+    this.programmableSwitchEvent.on('get', this.getProgrammableSwitchEvent.bind(this));
 
     this.services.push(doorbellService);
   }
 
-  getSwitchEvent(callback) {
+  getProgrammableSwitchEvent(callback) {
     this.api.getStatus(this.id, 'kakusensors').then(sensor => {
-      const pressed = sensor.status === 'no' ? 0 : 1;
+
+      const pressed = this.recentDetection(sensor) ? 1 : 0;
 
       if (pressed === 1) {
-        this.log(`Button pressed on doorbell:${this.name}`);
+        this.log(`Retreived button pressed on: ${this.name}`);
       }
 
+      this.programmableSwitchEvent.setValue(pressed);
       callback(null, pressed);
     }).catch(error => {
       this.log(`Failed to retrieve doorbell switch event for:${this.name}`);
