@@ -43,7 +43,7 @@ export class AccessoriesFactory {
       this._createScenes(scenes);
     }
 
-    if(devices) {
+    if (devices) {
       this._createSwitches(devices.switches);
       this._createThermometers(devices.thermometers);
       this._createKakuSensors(devices.kakusensors);

@@ -11,7 +11,7 @@
 [downloads-url]: https://npmjs.org/package/homebridge-homewizard
 
 ## Notice
-I have switched platform and no longer have a HomeWizard in my possession. I believe the plugin is currently quite feature complete and works correctly so feel free to keep using it and off course pull requests are always welcome! The big feature that's missing is probably the pushing of changes to Homekit, when for example a motion sensor changes state this is not being pushed to Homekit.
+I have switched platform and no longer have a HomeWizard in my possession. I believe the plugin is currently quite feature complete and works correctly so feel free to keep using it and off course pull requests are always welcome!
 
 If you have any issues i will try to help you out the best way i can. 
 
@@ -35,6 +35,7 @@ If you are interested in helping out, or would like to see support for something
 - Heatlink (thanks to: ygageot)
 - HomeWizard scenes
 - HomeWizard presets
+- Doorbells (thanks to: ygageot)
 
 ## Install guide
 First follow the instructions to install homebridge: https://github.com/nfarina/homebridge
@@ -78,7 +79,8 @@ switches that are not lights, here you can specify their type and Siri will trea
 Available types are: fan, outlet, switch, lightbulb.
 - createPresetSwitches (optional): create switches for the HomeWizard presets. Default is true.
 - presetNames (optional): names used to create the preset switches. If not set in the config the default names will be used like in the example config.
-
+- pushServer (optional): periodicly the plugin will request the HW statuses and refreh all in HomeKit. By default it is done every minute, you can change it with a parameter period (default 1 minute)
+  If you have doorbells, contact sensors, smoke sensors,... and need to inform HomeKit IMMEDIATLY, you will need to ask in the plugin the activation of  http and/or udp server with free ports in your network to listen, to add in your HW app an IP virtual switch configured for emitting "http://ip_address_of_plugin_host:choosen_http_port" for open or close event and in HW tasks fire this virtual switch when event occurs, if you prefer udp you will broadcast any message to the choosen udp port. The advantage of http choice is the possibility to check it with browser or from external host. By default these servers are not activated because you must choose unused ports.
 ```
 {
   "bridge": {
@@ -112,7 +114,8 @@ Available types are: fan, outlet, switch, lightbulb.
         "sleep": "Sleep Preset",
         "holiday": "Holiday Preset"
       },
-      "createSceneSwitches": true
+      "createSceneSwitches": true,
+      "pushServer": {"http": 8087, "udp": 33333, "period": 5}
    }]
 }
 ```
@@ -142,6 +145,10 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.53 - Push mode and doorbell support
+- 0.0.52 - Added api call response logging for debug level
+- 0.0.51 - Fix issue when there are no scenes
+- 0.0.50 - Optimization for Asun sensor support, thanks to ygageot!
 - 0.0.49 - HomeWizard scene support
 - 0.0.47 - HomeWizard preset support
 - 0.0.46 - Asun module support, thanks to ygageot!

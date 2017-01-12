@@ -16,7 +16,9 @@ export class HomeWizardSmokeSensor extends HomeWizardBaseAccessory {
 
   getSmokeDetected(callback) {
     this.api.getStatus(this.id, 'kakusensors').then(sensor => {
-      const smoke = (sensor.status === 'yes' && this.recentUpdate(sensor, 10)) ? this.hap.Characteristic.SmokeDetected.SMOKE_DETECTED : this.hap.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED;
+      const smoke = sensor.status === 'yes' && this.recentUpdate(sensor, 10)
+        ? this.hap.Characteristic.SmokeDetected.SMOKE_DETECTED
+        : this.hap.Characteristic.SmokeDetected.SMOKE_NOT_DETECTED;
 
       if (smoke === this.hap.Characteristic.SmokeDetected.SMOKE_DETECTED) {
         this.log(`Detected smoke at sensor:${this.name}`);
