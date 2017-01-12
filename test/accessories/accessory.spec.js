@@ -56,6 +56,7 @@ describe('Class HomeWizardBaseAccessory', () => {
     expect(accessory.id).to.equal(hwObject.id);
     expect(accessory.name).to.equal(hwObject.name);
     expect(accessory.hwObject).to.equal(hwObject);
+    expect(accessory.eventManager).to.equal(eventManager);
   });
 
   it('Accessory base class should expose a getServices function', () => {
