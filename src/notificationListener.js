@@ -4,6 +4,8 @@ import http from 'http';
 
 export class NotificationListener {
 
+  DEFAULT_PERIOD = 1;
+
   constructor(log, config, api, eventManager) {
 
     if (config && config.pushServer && config.pushServer.udp) {
@@ -40,13 +42,11 @@ export class NotificationListener {
       });
     }
 
-    if (config && config.pushServer && config.pushServer.period) {
-      log(`Automatic refresh every ${config.pushServer.period} mn`);
-      const delay = config.pushServer.period * 60 * 1000;
-      setInterval(function () {
-        log(`Refresh...`);
-        eventManager.refreshAllGetters();
-      }, delay);
-    }
+    const period = config && config.pushServer && config.pushServer.period ? config.pushServer.period : this.DEFAULT_PERIOD;
+    log(`Automatic refresh every ${period} mn`);
+    setInterval(function () {
+      log(`Refresh...`);
+      eventManager.refreshAllGetters();
+    }, 60 * 1000 * period);
   }
 }
