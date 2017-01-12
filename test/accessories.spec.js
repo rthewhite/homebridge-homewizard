@@ -103,7 +103,14 @@ describe('Class AccessoriesFactory ', () => {
 
       accessories._instantiateAccessory(DeviceClass, accessoryInfo);
 
-      expect(DeviceClass).to.have.been.calledWith(log, config, api, homebridge, eventManager, accessoryInfo);
+      expect(DeviceClass).to.have.been.calledWith({
+        log: log,
+        config: config,
+        api: api,
+        homebridge: homebridge,
+        eventManager: eventManager,
+        hwObject: accessoryInfo
+      });
     });
 
     it('should filter out filtered accesories', () => {
@@ -345,9 +352,9 @@ describe('Class AccessoriesFactory ', () => {
         }];
 
       factory._createKakuSensors(kakusensors);
-              
+
       expect(instantiateSpy).to.have.been.calledWith(contactSpy, kakusensors[0]);
-              
+
       AccessoriesFactoryRewire.__ResetDependency__('HomeWizardDoorbell', contactSpy);
    });
   });
