@@ -34,7 +34,7 @@ export class HomeWizardBaseAccessory {
     const DELAY_MAX = 1; // in minutes
     const hhmm = sensor.timestamp.split(':');
     const now = new Date();
-    return sensor.status === 'yes' && ((now.getHours() * 60 + now.getMinutes()) - (hhmm[0] * 60 + hhmm[1] * 1)) <= DELAY_MAX;
+    return sensor.status === 'yes' && now.getHours() * 60 + now.getMinutes() - (Number(hhmm[0]) * 60 + Number(hhmm[1]) * 1) <= DELAY_MAX;
   }
 
   getServices() {
@@ -46,14 +46,14 @@ export class HomeWizardBaseAccessory {
   }
 
   refreshAllGetters() {
-    for (let serv of this.services) {
-      for (let char of serv.characteristics) {
+    for (const serv of this.services) {
+      for (const char of serv.characteristics) {
         if (char._events.get) {
-          char._events.get.call(this, function(err) {
+          Reflect.apply(char._events.get, this, [function(err) {
             if (err) {
               return;
             }
-          })
+          }]);
         }
       }
     }

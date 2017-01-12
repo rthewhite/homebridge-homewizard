@@ -1,14 +1,13 @@
 import 'babel-polyfill';
 import dgram from 'dgram';
 import http from 'http';
-import url from 'url';
 
 export class NotificationListener {
 
   constructor(log, config, api, eventManager) {
 
-    if(config && config.pushServer.udp) {
-      const socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
+    if (config && config.pushServer && config.pushServer.udp) {
+      const socket = dgram.createSocket({type: 'udp4', reuseAddr: true});
 
       socket.on('error', function (err) {
         log(`NotificationListener UDP server error:\n${err.stack}`);
@@ -28,7 +27,7 @@ export class NotificationListener {
       socket.bind(config.pushServer.udp);
     }
 
-    if(config && config.pushServer.http) {
+    if (config && config.pushServer && config.pushServer.http) {
       http.createServer(function (request, response) {
         const clientAdress = (request.headers['x-forwarded-for'] || '').split(',')[0] || request.connection.remoteAddress;
         log(`Http request from : ${clientAdress} ${request.method} ${request.url}`);
@@ -41,7 +40,7 @@ export class NotificationListener {
       });
     }
 
-    if(config && config.pushServer.period) {
+    if (config && config.pushServer && config.pushServer.period) {
       log(`Automatic refresh every ${config.pushServer.period} mn`);
       const delay = config.pushServer.period * 60 * 1000;
       setInterval(function () {
