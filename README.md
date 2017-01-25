@@ -13,7 +13,7 @@
 ## Notice
 I have switched platform and no longer have a HomeWizard in my possession. I believe the plugin is currently quite feature complete and works correctly so feel free to keep using it and off course pull requests are always welcome!
 
-If you have any issues i will try to help you out the best way i can. 
+If you have any issues i will try to help you out the best way i can.
 
 # homebridge-homewizard
 This plugin will add platform support for HomeWizard to Homebridge.
@@ -145,6 +145,7 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.57 - Fix issue where dimmers would go in dim mode when you turn them on again
 - 0.0.56 - Doorbell like a switch
 - 0.0.55 - eslint reactivation and push request activated by default
 - 0.0.54 - bump version

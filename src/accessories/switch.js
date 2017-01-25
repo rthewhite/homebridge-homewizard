@@ -54,16 +54,38 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
   }
 
   setPowerState(state, callback) {
+    // To prevent dimmers from switching to dimming mode when they are already turned on
+    if (this.hwObject.type === 'dimmer' && state === true) {
+      callback(); // Calling callback right away might take to long?
+
+      this.getPowerState((currentState) => {
+        if (currentState !== state) {
+          this._setPowerState(state);
+        }
+      });
+    } else {
+      this._setPowerState(state, callback);
+    }
+  }
+
+  _setPowerState(state, callback) {
     const value = state ? 'on' : 'off';
     const url = `sw/${this.id}/${value}`;
 
+
     this.api.request({url}).then(() => {
       this.log(`Switched ${this.name} to: ${value}`);
-      callback();
+
+      if (callback) {
+        callback();
+      }
     }).catch(error => {
       this.log(`Failed to switch ${this.name}`);
       this.log(error);
-      callback(error);
+
+      if (callback) {
+        callback(error);
+      }
     });
   }
 
