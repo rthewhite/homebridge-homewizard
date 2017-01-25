@@ -58,7 +58,7 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
     if (this.hwObject.type === 'dimmer' && state === true) {
       callback(); // Calling callback right away might take to long?
 
-      this.getPowerState((currentState) => {
+      this.getPowerState(currentState => {
         if (currentState !== state) {
           this._setPowerState(state);
         }
