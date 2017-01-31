@@ -45,8 +45,8 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
         break;
     }
 
-    service
-      .getCharacteristic(this.hap.Characteristic.On)
+    this.onChar = service.getCharacteristic(this.hap.Characteristic.On);
+    this.onChar
       .on('set', this.setPowerState.bind(this))
       .on('get', this.getPowerState.bind(this));
 
@@ -100,5 +100,15 @@ export class HomeWizardSwitch extends HomeWizardBaseAccessory {
       this.log(error);
       callback(error);
     });
+  }
+
+  identify(callback) {
+    this.log(`Identify ${this.name}...`);
+    const previous = this.onChar.value;
+    this.onChar.setValue(1 - previous);
+    setTimeout(function (me, value) {
+      me.onChar.setValue(value);
+    }, 1000, this, previous);
+    callback();
   }
 }
