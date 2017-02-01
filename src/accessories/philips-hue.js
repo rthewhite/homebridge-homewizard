@@ -15,7 +15,7 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   setupServices() {
     // Setup services
     const lightbulbService = new this.hap.Service.Lightbulb();
-    this.onChar = service.getCharacteristic(this.hap.Characteristic.On);
+    this.onChar = lightbulbService.getCharacteristic(this.hap.Characteristic.On);
     this.onChar
       .on('set', this.setPowerState.bind(this))
       .on('get', this.getPowerState.bind(this));
