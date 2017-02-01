@@ -13,7 +13,7 @@
 ## Notice
 I have switched platform and no longer have a HomeWizard in my possession. I believe the plugin is currently quite feature complete and works correctly so feel free to keep using it and off course pull requests are always welcome!
 
-If you have any issues i will try to help you out the best way i can. 
+If you have any issues i will try to help you out the best way i can.
 
 # homebridge-homewizard
 This plugin will add platform support for HomeWizard to Homebridge.
