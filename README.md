@@ -145,6 +145,7 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.0.58 - Identity activation for lights and switches
 - 0.0.57 - Fix issue where dimmers would go in dim mode when you turn them on again
 - 0.0.56 - Doorbell like a switch
 - 0.0.55 - eslint reactivation and push request activated by default

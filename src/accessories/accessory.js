@@ -24,7 +24,8 @@ export class HomeWizardBaseAccessory {
     informationService
       .setCharacteristic(this.hap.Characteristic.Manufacturer, this.manufacturer)
       .setCharacteristic(this.hap.Characteristic.Model, this.model)
-      .setCharacteristic(this.hap.Characteristic.SerialNumber, this.serialNumber);
+      .setCharacteristic(this.hap.Characteristic.SerialNumber, this.serialNumber)
+      .setCharacteristic(this.hap.Characteristic.Identify, true);
     this.services.push(informationService);
   }
 

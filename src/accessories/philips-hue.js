@@ -15,8 +15,8 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
   setupServices() {
     // Setup services
     const lightbulbService = new this.hap.Service.Lightbulb();
-    lightbulbService
-      .getCharacteristic(this.hap.Characteristic.On)
+    this.onChar = lightbulbService.getCharacteristic(this.hap.Characteristic.On);
+    this.onChar
       .on('set', this.setPowerState.bind(this))
       .on('get', this.getPowerState.bind(this));
 
@@ -119,5 +119,15 @@ export class HomeWizardPhilipsHue extends HomeWizardBaseAccessory {
     }).catch(error => {
       callback(error, 100);
     });
+  }
+
+  identify(callback) {
+    this.log(`Identify ${this.name}...`);
+    const previous = this.onChar.value;
+    this.onChar.setValue(1 - previous);
+    setTimeout(function (me, value) {
+      me.onChar.setValue(value);
+    }, 1000, this, previous);
+    callback();
   }
 }

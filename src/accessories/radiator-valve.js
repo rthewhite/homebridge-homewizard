@@ -32,7 +32,10 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
       .setCharacteristic(this.hap.Characteristic.CurrentHeatingCoolingState, this.hap.Characteristic.CurrentHeatingCoolingState.HEAT);
 
     valveService
-      .setCharacteristic(this.hap.Characteristic.TargetHeatingCoolingState, this.hap.Characteristic.TargetHeatingCoolingState.AUTO);
+      .setCharacteristic(this.hap.Characteristic.TargetHeatingCoolingState, this.hap.Characteristic.TargetHeatingCoolingState.HEAT);
+
+    valveService
+      .getCharacteristic(this.hap.Characteristic.TargetHeatingCoolingState).props.validValues = [this.hap.Characteristic.TargetHeatingCoolingState.HEAT];
 
     valveService
       .setCharacteristic(this.hap.Characteristic.TemperatureDisplayUnits, this.hap.Characteristic.TemperatureDisplayUnits.CELSIUS);
