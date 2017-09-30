@@ -10,8 +10,8 @@
 [downloads-image]: https://img.shields.io/npm/dm/homebridge-homewizard.svg?style=flat
 [downloads-url]: https://npmjs.org/package/homebridge-homewizard
 
-## Notice
-I have switched platform and no longer have a HomeWizard in my possession. I believe the plugin is currently quite feature complete and works correctly so feel free to keep using it and off course pull requests are always welcome!
+## UNSUPPORTED
+I no longer have a HomeWizard in my possession and no longer support this plugin. 
 
 If you have any issues i will try to help you out the best way i can.
 
