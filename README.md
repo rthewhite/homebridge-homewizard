@@ -13,8 +13,6 @@
 ## UNSUPPORTED
 I no longer have a HomeWizard in my possession and no longer support this plugin. 
 
-If you have any issues i will try to help you out the best way i can.
-
 # homebridge-homewizard
 This plugin will add platform support for HomeWizard to Homebridge.
 And therefore give you the ability to control all devices and sensors attached to your HomeWizard with Siri!
