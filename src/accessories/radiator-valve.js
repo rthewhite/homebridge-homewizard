@@ -90,14 +90,18 @@ export class HomeWizardRadiatorValve extends HomeWizardBaseAccessory {
   }
 
   getHumidity(callback) {
-    this.api.getStatus(this.thermometer.id, 'thermometers').then(th => {
-      this.log(`Retrieved humidity for:${this.name} its:${th.hu} %`);
-      callback(null, th.hu);
-    }).catch(error => {
-      this.log(`Failed to retrieve humidity for: ${this.name}`);
-      this.log(error);
-      callback(error);
-    });
+    if (this.thermometer.id >= 0) {
+      this.api.getStatus(this.thermometer.id, 'thermometers').then(th => {
+        this.log(`Retrieved humidity for:${this.name} its:${th.hu} %`);
+        callback(null, th.hu);
+      }).catch(error => {
+        this.log(`Failed to retrieve humidity for: ${this.name}`);
+        this.log(error);
+        callback(error);
+      });
+    } else {
+      callback(null, 50);
+    }
   }
 
   getCurrentTemperature(callback) {
