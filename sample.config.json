@@ -16,7 +16,7 @@
       "valves": {
         "livingroom radiator": "livingroom thermometer"
       },
-      "heatlinks" : 0,
+      "heatlinks": 0,
       "switchTypes": {
         "accessoryName": "fan",
         "accessoryName": "outlet",
