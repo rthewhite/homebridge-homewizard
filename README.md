@@ -79,7 +79,7 @@ Available types are: fan, outlet, switch, lightbulb.
 - presetNames (optional): names used to create the preset switches. If not set in the config the default names will be used like in the example config.
 - pushServer (optional): periodicly the plugin will request the HW statuses and refreh all in HomeKit. By default it is done every minute, you can change it with a parameter period (default 1 minute)
   If you have doorbells, contact sensors, smoke sensors,... and need to inform HomeKit IMMEDIATLY, you will need to ask in the plugin the activation of  http and/or udp server with free ports in your network to listen, to add in your HW app an IP virtual switch configured for emitting "http://ip_address_of_plugin_host:choosen_http_port" for open or close event and in HW tasks fire this virtual switch when event occurs, if you prefer udp you will broadcast any message to the choosen udp port. The advantage of http choice is the possibility to check it with browser or from external host. By default these servers are not activated because you must choose unused ports.
-- accessoryNames (optional): Allows you to customize device display names. Homewizard only allows up to 15 characters for device names which leads many people to use abbreviations for device names e.g. Living Room Left Blinds -> LR Blinds Left. It can be difficult to express these abbreviations to Siri, this option allows you to give the devices other names. 
+- accessoryNames (optional): Allows you to customize device display names. Homewizard only allows up to 15 characters for device names which leads many people to use abbreviations for device names e.g. Living Room Left Blinds -> LR Blinds Left. It can be difficult to express these abbreviations to Siri, this option allows you to give the devices other names.
 ```
 {
   "bridge": {
@@ -147,6 +147,7 @@ the accessories folder. See for example [switch](src/accessories/switch.js) or [
 the accessories factory in `accessories.js` aware of you new device type. The factory receives the entire response of the get-sensors call from the HomeWizard which lists all devices.
 
 # Changelog
+- 0.1.0  - Added the ability to configure the display names of accessories in HomeKit, thanks to alexjebens
 - 0.0.60 - Fixed error for radiator valve humidity if there is no thermometer, thanks to alexjebens
 - 0.0.59 - Doorbell like a Doorbell with identify action
 - 0.0.58 - Identity activation for lights and switches
