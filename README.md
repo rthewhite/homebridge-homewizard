@@ -115,7 +115,7 @@ Available types are: fan, outlet, switch, lightbulb.
       },
       "createSceneSwitches": true,
       "pushServer": {"http": 8087, "udp": 33333, "period": 5},
-      "accessoryNames" : {
+      "accessoryNames": {
         "Technical_Short_HomeWizard_Name": "Expressive long HomeKit name"
       }
    }]
