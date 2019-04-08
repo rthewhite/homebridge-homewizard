@@ -79,6 +79,7 @@ Available types are: fan, outlet, switch, lightbulb.
 - presetNames (optional): names used to create the preset switches. If not set in the config the default names will be used like in the example config.
 - pushServer (optional): periodicly the plugin will request the HW statuses and refreh all in HomeKit. By default it is done every minute, you can change it with a parameter period (default 1 minute)
   If you have doorbells, contact sensors, smoke sensors,... and need to inform HomeKit IMMEDIATLY, you will need to ask in the plugin the activation of  http and/or udp server with free ports in your network to listen, to add in your HW app an IP virtual switch configured for emitting "http://ip_address_of_plugin_host:choosen_http_port" for open or close event and in HW tasks fire this virtual switch when event occurs, if you prefer udp you will broadcast any message to the choosen udp port. The advantage of http choice is the possibility to check it with browser or from external host. By default these servers are not activated because you must choose unused ports.
+- accessoryNames (optional): Allows you to customize device display names. Homewizard only allows up to 15 characters for device names which leads many people to use abbreviations for device names e.g. Living Room Left Blinds -> LR Blinds Left. It can be difficult to express these abbreviations to Siri, this option allows you to give the devices other names. 
 ```
 {
   "bridge": {
@@ -113,7 +114,10 @@ Available types are: fan, outlet, switch, lightbulb.
         "holiday": "Holiday Preset"
       },
       "createSceneSwitches": true,
-      "pushServer": {"http": 8087, "udp": 33333, "period": 5}
+      "pushServer": {"http": 8087, "udp": 33333, "period": 5},
+      "accessoryNames" : {
+        "Technical_Short_HomeWizard_Name": "Expressive long HomeKit name"
+      }
    }]
 }
 ```

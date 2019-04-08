@@ -23,6 +23,7 @@ export class AccessoriesFactory {
     this.api = api;
     this.homebridge = homebridge;
     this.eventManager = eventManager;
+    this.accessoryNames = config && config.accessoryNames || {};
 
     if (config && config.filtered) {
       for (const filter of config.filtered) {
@@ -143,7 +144,12 @@ export class AccessoriesFactory {
 
   // Instantiates a new object of the given DeviceClass
   _instantiateAccessory(DeviceClass, deviceInfo) {
-    if (this.filtered.indexOf(deviceInfo.name.trim()) === -1) {
+    const trimmedDeviceName = deviceInfo.name.trim();
+    if (this.filtered.indexOf(trimmedDeviceName) === -1) {
+      const accessoryName = this.accessoryNames[trimmedDeviceName];
+      if (accessoryName) {
+        deviceInfo.name = accessoryName;
+      }
       const accessory = new DeviceClass({
         log: this.log,
         config: this.config,
