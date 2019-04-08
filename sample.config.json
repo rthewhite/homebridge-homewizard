@@ -16,7 +16,7 @@
       "valves": {
         "livingroom radiator": "livingroom thermometer"
       },
-      "heatlinks" : 0,
+      "heatlinks": 0,
       "switchTypes": {
         "accessoryName": "fan",
         "accessoryName": "outlet",
@@ -30,6 +30,9 @@
         "sleep": "Sleep Preset",
         "holiday": "Holiday Preset"
       },
-      "createSceneSwitches": true
+      "createSceneSwitches": true,
+      "accessoryNames": {
+        "SHORT_HOMEWIZARD_NAME": "Long descriptive HomeKit Name"
+      }
    }]
 }
